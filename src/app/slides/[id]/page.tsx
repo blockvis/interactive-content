@@ -58,7 +58,7 @@ export default async function SlidePage({
           </p>
         </div>
 
-        <div className="shrink-0">
+        <div className="hidden shrink-0 sm:block">
           <SlideQRCode url={slideUrl} />
         </div>
       </main>
