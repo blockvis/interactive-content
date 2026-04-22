@@ -4,7 +4,6 @@ import {
   getSlidesForLang,
   languages,
   totalSlides,
-  SITE_URL,
 } from "@/lib/slides";
 import { SlideNav } from "@/components/slide-nav";
 import { SlideQRCode } from "@/components/qr-code";
@@ -49,7 +48,7 @@ export default async function SlidePage({
 
   if (!slide) notFound();
 
-  const slideUrl = `${SITE_URL}/${SLUG}/slides/${lang}/${slide.id}`;
+  const slidePath = `/${SLUG}/slides/${lang}/${slide.id}`;
   const total = totalSlides(lang);
   const routePrefix = `/${SLUG}`;
 
@@ -82,7 +81,7 @@ export default async function SlidePage({
         </div>
 
         <div className="hidden shrink-0 sm:block">
-          <SlideQRCode url={slideUrl} />
+          <SlideQRCode path={slidePath} />
         </div>
       </main>
 

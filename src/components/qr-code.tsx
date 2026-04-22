@@ -2,7 +2,10 @@
 
 import { QRCodeSVG } from "qrcode.react";
 
-export function SlideQRCode({ url }: { url: string }) {
+export function SlideQRCode({ path }: { path: string }) {
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  const url = `${origin}${path}`;
+
   return (
     <div className="flex flex-col items-center gap-2">
       <div className="rounded-xl bg-white p-3 shadow-sm">
