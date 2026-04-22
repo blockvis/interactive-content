@@ -12,7 +12,8 @@ export function SlideNav({ currentSlide }: { currentSlide: number }) {
 
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
-      if (e.key === "ArrowRight" && hasNext) {
+      if ((e.key === "ArrowRight" || e.key === " ") && hasNext) {
+        e.preventDefault();
         router.push(`/slides/${currentSlide + 1}`);
       } else if (e.key === "ArrowLeft" && hasPrev) {
         router.push(`/slides/${currentSlide - 1}`);
