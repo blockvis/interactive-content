@@ -63,7 +63,7 @@ export default async function SlidePage({
         </div>
       </main>
 
-      <footer className="w-full max-w-3xl flex justify-center">
+      <footer className="sticky bottom-0 z-10 flex w-full justify-center border-t border-zinc-100 bg-white/80 py-4 backdrop-blur-sm sm:static sm:w-full sm:max-w-3xl sm:border-0 sm:bg-transparent sm:py-0 sm:backdrop-blur-none dark:border-zinc-800 dark:bg-zinc-950/80 sm:dark:bg-transparent">
         <SlideNav currentSlide={slide.id} />
       </footer>
     </div>
