@@ -15,9 +15,11 @@ const LANG_LABELS: Record<string, string> = {
 export function LanguageSwitcher({
   currentLang,
   currentSlide,
+  routePrefix = "",
 }: {
   currentLang: string;
   currentSlide: number;
+  routePrefix?: string;
 }) {
   if (languages.length <= 1) return null;
 
@@ -26,7 +28,7 @@ export function LanguageSwitcher({
       {languages.map((lang) => (
         <Link
           key={lang}
-          href={`/slides/${lang}/${currentSlide}`}
+          href={`${routePrefix}/slides/${lang}/${currentSlide}`}
           className={`rounded px-2 py-1 text-xs font-medium transition-colors ${
             lang === currentLang
               ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-900"

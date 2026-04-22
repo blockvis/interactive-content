@@ -12,6 +12,8 @@ import { MarkdownSlide } from "@/components/markdown-slide";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import type { Metadata } from "next";
 
+const SLUG = "gq128-beauty-presentation";
+
 export function generateStaticParams() {
   const params: { lang: string; id: string }[] = [];
   for (const lang of languages) {
@@ -47,8 +49,9 @@ export default async function SlidePage({
 
   if (!slide) notFound();
 
-  const slideUrl = `${SITE_URL}/slides/${lang}/${slide.id}`;
+  const slideUrl = `${SITE_URL}/${SLUG}/slides/${lang}/${slide.id}`;
   const total = totalSlides(lang);
+  const routePrefix = `/${SLUG}`;
 
   return (
     <div className="flex h-dvh flex-col overflow-hidden px-6 py-10 sm:py-16">
@@ -56,7 +59,11 @@ export default async function SlidePage({
         <div className="text-sm font-medium text-zinc-400 dark:text-zinc-500">
           Complex Presentation
         </div>
-        <LanguageSwitcher currentLang={lang} currentSlide={slideId} />
+        <LanguageSwitcher
+          currentLang={lang}
+          currentSlide={slideId}
+          routePrefix={routePrefix}
+        />
       </header>
 
       <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center gap-8 overflow-y-auto py-8 sm:flex-row sm:items-center sm:gap-16 sm:overflow-visible sm:pb-12">
@@ -81,7 +88,12 @@ export default async function SlidePage({
 
       <footer className="mx-auto w-full max-w-3xl shrink-0 border-t border-zinc-100 pt-4 sm:border-0 sm:pt-0 dark:border-zinc-800">
         <div className="flex justify-center">
-          <SlideNav currentSlide={slideId} totalSlides={total} lang={lang} />
+          <SlideNav
+            currentSlide={slideId}
+            totalSlides={total}
+            lang={lang}
+            routePrefix={routePrefix}
+          />
         </div>
       </footer>
     </div>
