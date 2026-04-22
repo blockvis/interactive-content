@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
+import { defaultLanguage } from "@/lib/slides";
 
 export default function Home() {
-  redirect("/slides/1");
+  redirect(`/slides/${defaultLanguage}/1`);
 }

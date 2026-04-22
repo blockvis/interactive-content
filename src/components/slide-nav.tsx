@@ -3,9 +3,16 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { totalSlides } from "@/lib/slides";
 
-export function SlideNav({ currentSlide }: { currentSlide: number }) {
+export function SlideNav({
+  currentSlide,
+  totalSlides,
+  lang,
+}: {
+  currentSlide: number;
+  totalSlides: number;
+  lang: string;
+}) {
   const router = useRouter();
   const hasPrev = currentSlide > 1;
   const hasNext = currentSlide < totalSlides;
@@ -14,20 +21,20 @@ export function SlideNav({ currentSlide }: { currentSlide: number }) {
     function handleKey(e: KeyboardEvent) {
       if ((e.key === "ArrowRight" || e.key === " ") && hasNext) {
         e.preventDefault();
-        router.push(`/slides/${currentSlide + 1}`);
+        router.push(`/slides/${lang}/${currentSlide + 1}`);
       } else if (e.key === "ArrowLeft" && hasPrev) {
-        router.push(`/slides/${currentSlide - 1}`);
+        router.push(`/slides/${lang}/${currentSlide - 1}`);
       }
     }
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [currentSlide, hasNext, hasPrev, router]);
+  }, [currentSlide, hasNext, hasPrev, lang, router]);
 
   return (
     <nav className="flex items-center gap-4">
       {hasPrev ? (
         <Link
-          href={`/slides/${currentSlide - 1}`}
+          href={`/slides/${lang}/${currentSlide - 1}`}
           className="flex h-10 items-center gap-2 rounded-full border border-zinc-200 px-5 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
         >
           <span aria-hidden>←</span> Prev
@@ -44,7 +51,7 @@ export function SlideNav({ currentSlide }: { currentSlide: number }) {
 
       {hasNext ? (
         <Link
-          href={`/slides/${currentSlide + 1}`}
+          href={`/slides/${lang}/${currentSlide + 1}`}
           className="flex h-10 items-center gap-2 rounded-full bg-zinc-900 px-5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
         >
           Next <span aria-hidden>→</span>
