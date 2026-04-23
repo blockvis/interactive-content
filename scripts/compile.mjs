@@ -17,6 +17,15 @@ const CONTENT_DIR = path.resolve(ROOT, process.argv[2] || "example");
 const OUT_JSON = path.resolve(ROOT, "src/generated/slides.json");
 const OUT_IMAGES = path.resolve(ROOT, "public/content/images");
 
+/** Avoid Turbopack reading a truncated file mid-write. */
+function writeFileAtomicSync(filePath, data) {
+  const dir = path.dirname(filePath);
+  const base = path.basename(filePath);
+  const tmp = path.join(dir, `.${base}.${process.pid}.${Date.now()}.tmp`);
+  fs.writeFileSync(tmp, data, "utf-8");
+  fs.renameSync(tmp, filePath);
+}
+
 function readLanguages() {
   const file = path.join(CONTENT_DIR, ".languages");
   if (!fs.existsSync(file)) {
@@ -110,7 +119,7 @@ function main() {
   };
 
   fs.mkdirSync(path.dirname(OUT_JSON), { recursive: true });
-  fs.writeFileSync(OUT_JSON, JSON.stringify(output, null, 2), "utf-8");
+  writeFileAtomicSync(OUT_JSON, JSON.stringify(output, null, 2));
   console.log(`  Output → src/generated/slides.json`);
 
   copyImages();
