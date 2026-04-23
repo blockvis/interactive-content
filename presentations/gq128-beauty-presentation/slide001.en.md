@@ -1,4 +1,5 @@
 ---
+layout: title
 title: "Technical Debt & The Beauty of Complex-Valued Geometry and Arithmetic"
 subtitle: "Interactive Visualizations Powered by AI"
 ---
