@@ -1,0 +1,31 @@
+---
+description: Don't fight the environment — favor flow over cosmetic purity
+alwaysApply: true
+---
+
+# Workflow Pragmatism
+
+Default behaviors of the tooling (IDE, git wrappers, hooks, CI, platform
+defaults) are accepted as long as they do not block development.
+
+## Principles
+
+- **Flow over purity.** If something works by default and does not impede
+  progress, leave it alone. Do not spend effort on cosmetic fixes.
+- **Fight only real blockers.** Change defaults only when they cause bugs,
+  data loss, security issues, or a visibly worse user experience.
+- **Stay inside the grain of the tool.** Prefer idiomatic, light-touch
+  solutions over clever workarounds.
+
+## Concrete examples
+
+- Automatically appended commit trailers (e.g. `Made-with: Cursor`),
+  default formatter output, auto-added imports, noise lines in tool logs
+  — ignore unless the user explicitly objects.
+- Do not rewrite git history just to clean up such cosmetics.
+- Do not introduce custom scripts to suppress harmless default messages.
+
+## When in doubt
+
+Ask the user: "This is the default behavior of <tool>. It doesn't block
+anything. Keep it or override?" — then proceed accordingly.
