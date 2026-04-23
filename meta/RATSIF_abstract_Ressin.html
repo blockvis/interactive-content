@@ -1,0 +1,297 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=Generator content="Microsoft Word 15 (filtered)">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:"Times New Roman Bold";
+	panose-1:2 11 6 4 2 2 2 2 2 4;}
+@font-face
+	{font-family:"\@SimSun";
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;}
+a:link, span.MsoHyperlink
+	{color:#0563C1;
+	text-decoration:underline;}
+p.Author-abstract, li.Author-abstract, div.Author-abstract
+	{mso-style-name:Author-abstract;
+	margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:12.0pt;
+	margin-left:0cm;
+	text-align:center;
+	font-size:12.0pt;
+	font-family:"Times New Roman Bold",serif;
+	font-weight:bold;
+	font-style:italic;}
+p.Information-abstract, li.Information-abstract, div.Information-abstract
+	{mso-style-name:Information-abstract;
+	margin:0cm;
+	text-align:center;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	font-style:italic;}
+p.Keywords-abstract, li.Keywords-abstract, div.Keywords-abstract
+	{mso-style-name:Keywords-abstract;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:12.0pt;
+	margin-left:0cm;
+	text-align:justify;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;
+	font-weight:bold;}
+p.Bodytext-abstract, li.Bodytext-abstract, div.Bodytext-abstract
+	{mso-style-name:Body_text-abstract;
+	margin:0cm;
+	text-align:justify;
+	text-indent:1.0cm;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;}
+.MsoChpDefault
+	{font-size:11.0pt;}
+@page WordSection1
+	{size:595.3pt 841.9pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+
+</head>
+
+<body lang=en-LV link="#0563C1" vlink="#96607D" style='word-wrap:break-word'>
+
+<div class=WordSection1>
+
+<p class=Author-abstract><span lang=EN-GB style='font-size:14.0pt;text-transform:
+uppercase;letter-spacing:.25pt;font-style:normal'>The Beauty of Complex-Valued Geometry
+and Arithmetic </span></p>
+
+<p class=Author-abstract><span lang=EN-GB style='font-size:13.0pt;text-transform:
+uppercase;letter-spacing:.25pt;font-style:normal'>Interactive Visualizations
+Powered by AI</span></p>
+
+<p class=Author-abstract><span lang=EN-US>Anatoly Ressin</span></p>
+
+<p class=Information-abstract><span lang=EN-US>Blockvis SIA, BlockvisLabs </span></p>
+
+<p class=Information-abstract><span lang=EN-US>Latgales iela 240-3, room 504,
+Riga, LV-1063, Latvia</span></p>
+
+<p class=Information-abstract><span lang=EN-US>anatoly@blockvis.com</span></p>
+
+<p class=Bodytext-abstract><span lang=EN-US>&nbsp;</span></p>
+
+<p class=Keywords-abstract><span lang=EN-US>Keywords: </span><span lang=EN-US
+style='font-weight:normal'>History and </span><span lang=EN-US
+style='font-weight:normal'>Technical Debt of Mathematics, Eisenstein Integers,
+Gosper Island, Positional Coding, GQ128 Format, AI Visualization</span></p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;text-align:justify;line-height:
+115%'>In 1831, reflecting on nearly two centuries of confusion around the
+square root of minus one, Gauss (1831) remarked that the subject had been <i>“enveloped
+in mystery and surrounded by darkness”</i> — and he blamed not the mathematics
+but the words. Had +1, −1, and <span
+style='font-size:11.0pt;font-family:"Times New Roman",serif;position:relative;
+top:2.0pt'><img width=22 height=14 src="RATSIF_abstract_Ressin.fld/image001.jpg"></span> been
+named <i>direct</i>, <i>inverse</i>, and <i>lateral</i> rather than <i>positive</i>,
+<i>negative</i>, and <i>imaginary</i>, he argued, the darkness would never have
+formed. The term <i>imaginary</i> itself descended from Descartes through Euler
+(1748), whose <i>Introductio in analysin infinitorum</i> cemented the notation
+that modern students still inherit. Gauss’s proposed correction was never
+adopted. This talk takes his complaint seriously and follows it further than he
+did — through the axes, through the lattice, through the unit interval — and shows
+that the resulting geometry is not only more natural but more beautiful.</p>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+6.0pt;margin-left:0cm'><b>The Axes Were Drawn Sideways</b></p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;text-align:justify;line-height:
+115%'><img width=160 height=121 src="RATSIF_abstract_Ressin.fld/image002.jpg"
+align=left hspace=12><img width=120 height=121
+src="RATSIF_abstract_Ressin.fld/image003.jpg" align=left hspace=12>The complex
+plane, first given geometric form by Wessel (1799), carries a telling origin:
+Wessel was a Norwegian land surveyor, and his motivation was the analytic
+representation of <i>direction</i>. In a surveyor’s world the natural
+orientation is navigational — forward is up, lateral is sideways — and positive
+rotation follows the clock. Yet the Argand diagram that descended into
+textbooks chose the Cartesian orientation instead, with the real axis
+horizontal and the positive rotation running counter-clockwise. Restore
+Wessel’s frame: point the real axis upward and the imaginary axis to the right,
+and the positive rotation from Re to Im — unchanged algebraically — becomes
+clockwise. The complex exponential e<sup>iθ</sup> now turns with the hands of a
+clock, with a compass swinging from north to east, with a ship’s heading
+falling to starboard. Gauss’s <i>direct</i> and <i>lateral</i> are recovered as
+<i>forward</i> and <i>sideways</i>. The angular debt, inherited from Cartesian
+diagrams rather than from the geometry itself, evaporates.</p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;text-align:justify;line-height:
+115%'>&nbsp;</p>
+
+<b><span style='font-size:11.0pt;font-family:"Times New Roman",serif'><br
+clear=all>
+</span></b>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+6.0pt;margin-left:0cm'><b>A Mirror, Not a Square</b></p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;text-align:justify;line-height:
+115%'><img width=109 height=123 src="RATSIF_abstract_Ressin.fld/image004.jpg"
+align=left hspace=12><img width=105 height=123
+src="RATSIF_abstract_Ressin.fld/image005.jpg" align=left hspace=12>The matrix
+representation of a complex number carries a second hidden symmetry. In the
+standard layout, a N×N matrix is a square with its diagonal running from
+upper-left to lower-right, and the Hermitian condition H = H<sup>†</sup>
+appears as a purely algebraic statement. Stand the matrix on its corner as a
+diamond, with the diagonal now vertical. The real-valued diagonal entries lie
+on the axis of symmetry; the off-diagonal entry at (i, j) and its conjugate
+partner at (j, i) fall into literal mirror-image positions across that axis.
+Hermitian symmetry, invisible in the square layout, becomes a geometric
+reflection visible to the eye. A child once asked why a mirror swaps left and
+right but not up and down; the answer is that it does neither — we impose the
+swap by turning around. The standard matrix layout performs the same rotation,
+hiding a symmetry that was always there.</p>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+6.0pt;margin-left:0cm'><b>Optimal Lattice For Complex Numbers</b></p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;text-align:justify;line-height:
+115%'>Gauss’s 1831 treatise, besides containing his famous complaint, also
+introduced the <i>Gaussian integers</i> ℤ[i], the square lattice encoded by the
+90° convention. Yet this lattice is not geometrically optimal: the hexagonal
+lattice is denser, with six equidistant neighbours per point rather than four.
+The correct arithmetic object is the ring of <i>Eisenstein integers</i> ℤ[ω],
+where ω = e<sup>2πi/3</sup> satisfies ω² + ω + 1 = 0, introduced by Eisenstein
+(1844) in his proof of cubic reciprocity (Ireland and Rosen, 1990). Its norm
+N(a + bω) = a² − ab + b² is the natural quadratic form of 60° geometry, and
+like ℤ[i] it is a Euclidean domain. The hexagonal lattice is not a
+generalisation of the Gaussian square lattice — it is a correction of it.</p>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+6.0pt;margin-left:0cm'><b>Seven Digits for the Complex Plane</b></p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;text-align:justify;line-height:
+115%'>Knuth (1960), then a high-school contestant, observed that an imaginary
+number could serve as the base of a positional numeral system — a
+quater-imaginary base 2i for the Gaussian integers. The same idea on the
+Eisenstein lattice produces something more elegant still. Choose β = 2 − ω;
+then N(β) = 2² − 2·1 + 1² = 7, so there are exactly seven residue classes
+modulo β and the digit set is D = {0, 1, 2, 3, 4, 5, 6}. Every Eisenstein
+integer admits a unique finite representation:</p>
+
+<p class=MsoNormal align=center style='margin-top:6.0pt;margin-right:0cm;
+margin-bottom:6.0pt;margin-left:0cm;text-align:center'><i>z = d<sub>n</sub> · β<sup>n</sup>
++ d<sub>n−1</sub> · β<sup>n−1</sup> + ··· + d<sub>0</sub>,   d<sub>k</sub> ∈
+D     (1)</i></p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;text-align:justify;line-height:
+115%'>Addition, multiplication, and carrying are geometric operations on the
+hexagonal lattice. The talk presents the full addition and multiplication
+tables for D, and a worked column-arithmetic example with hexagonal carries —
+an operation a child fluent in decimal long addition could follow.</p>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+6.0pt;margin-left:0cm'><b>The Unit Interval That Is a Fractal</b></p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;text-align:justify;line-height:
+115%'><img width=191 height=206 src="RATSIF_abstract_Ressin.fld/image006.jpg"
+align=left hspace=12>What does the “unit interval” of this system look like? In
+decimal, all infinite digit strings 0.d<sub>1</sub>d<sub>2</sub>… fill [0, 1].
+The analogous attractor in base (2 − ω) is something else entirely: a fractal
+of seven self-similar copies at scaling factor 1/√7, discovered by Bill Gosper
+in 1973, first described publicly by Gardner (1976) in his <i>Scientific
+American</i> column, and later named the <i>Gosper island</i> by Mandelbrot
+(1977). It tiles the plane by translation, with no gaps, no overlaps, and a
+boundary nowhere smooth. It is the natural fundamental domain of complex
+arithmetic on the hexagonal lattice: the shape the unit interval was always
+trying to be.</p>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+6.0pt;margin-left:0cm'><b>GQ128 and the Live Demonstration</b></p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;text-align:justify;line-height:
+115%'>The talk concludes with the first public introduction of <b>GQ128</b>, a
+complex floating-point format whose mantissa lives in ℤ[ω] rather than ℤ,
+achieving isotropic quantization error — a property structurally impossible on
+the square lattice of standard IEEE 754 complex representation. All concepts
+are demonstrated through interactive visualizations generated in real time by
+AI, with no conventional slides.</p>
+
+<p class=MsoNormal style='margin-top:18.0pt;margin-right:0cm;margin-bottom:
+12.0pt;margin-left:0cm'><i>The research is supervised by Prof. Dr.Math. Jekaterina
+Gromova &amp; Prof. Dr.Phys. Dmitry Bocharov.</i></p>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+6.0pt;margin-left:0cm'><b>References</b></p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt'><b>Eisenstein, G. (1844)</b>
+Beweis des Reciprocitätssatzes für die cubischen Reste in der Theorie der aus
+dritten Wurzeln der Einheit zusammengesetzten complexen Zahlen. <i>Journal für
+die reine und angewandte Mathematik</i>, 27, 289–310. <a
+href="https://www.degruyterbrill.com/document/doi/10.1515/crll.1844.27.289/html">https://www.degruyterbrill.com/document/doi/10.1515/crll.1844.27.289/html</a></p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt'><b>Euler, L. (1748)</b> <i>Introductio
+in analysin infinitorum</i>. Lausanne: Marcum-Michaelem Bousquet.<br>
+<a href="https://scholarlycommons.pacific.edu/euler-works/101/">https://scholarlycommons.pacific.edu/euler-works/101/</a></p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt'><b>Gardner, M. (1976)</b>
+Mathematical games: In which “monster” curves force redefinition of the word
+“curve”. <i>Scientific American</i>, 235(6), 124–129.<br>
+<a href="https://www.scientificamerican.com/article/mathematical-games-1976-12/">https://www.scientificamerican.com/article/mathematical-games-1976-12/</a></p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt'><b>Gauss, C.F. (1831)</b>
+Theoria residuorum biquadraticorum, Commentatio secunda. <i>Göttingische
+gelehrte Anzeigen</i>, 64, 169–178.<br>
+<a
+href="https://www.sophiararebooks.com/pages/books/6172/carl-friedrich-gauss/theoria-residuorum-biquadraticorum-commentatio-prima-secunda">https://www.sophiararebooks.com/pages/books/6172/carl-friedrich-gauss/theoria-residuorum-biquadraticorum-commentatio-prima-secunda</a></p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt'><b>Ireland, K. and Rosen, M.
+(1990)</b> <i>A Classical Introduction to Modern Number Theory</i>, 2nd ed. New
+York: Springer-Verlag.<br>
+<a href="https://link.springer.com/book/10.1007/978-1-4757-2103-4">https://link.springer.com/book/10.1007/978-1-4757-2103-4</a></p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt'><b>Knuth, D.E. (1960)</b> An
+imaginary number system. <i>Communications of the ACM</i>, 3(4), 245–247.
+DOI:10.1145/367177.367233. <a
+href="https://dl.acm.org/doi/10.1145/367177.367233">https://dl.acm.org/doi/10.1145/367177.367233</a></p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt'><b>Mandelbrot, B.B. (1977)</b> <i>Fractals:
+Form, Chance, and Dimension</i>. San Francisco: W.H. Freeman.<br>
+<a href="https://archive.org/details/fractalsformchan0000mand">https://archive.org/details/fractalsformchan0000mand</a></p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt'><img width=133 height=133
+src="RATSIF_abstract_Ressin.fld/image007.jpg" align=left hspace=12><b>Wessel,
+C. (1799)</b> Om directionens analytiske betegning. <i>Nye samling af det
+Kongelige Danske Videnskabernes Selskabs Skrifter</i>, 5, 469–518.<br>
+<a
+href="https://www.sophiararebooks.com/pages/books/6397/caspar-wessel/om-directionens-analytiske-betegning-et-forsog-anvendt-fornemmelig-til-plane-og-sphaeriske">https://www.sophiararebooks.com/pages/books/6397/caspar-wessel/om-directionens-analytiske-betegning-et-forsog-anvendt-fornemmelig-til-plane-og-sphaeriske</a><br>
+<br>
+<br>
+</p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt'>&nbsp;</p>
+
+</div>
+
+</body>
+
+</html>

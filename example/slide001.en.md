@@ -1,6 +1,8 @@
 ---
-title: "Next-Generation Presentations"
-subtitle: "Complex Presentation"
+title: "Technical Debt & The Beauty of Complex-Valued Geometry and Arithmetic"
+subtitle: "Interactive Visualizations Powered by AI"
 ---
 
-Forget static slides. We create an interactive experience that engages the audience and makes every talk memorable. Open this page on your phone by scanning the QR code.
+**Anatoly Ressin** · Blockvis SIA, BlockvisLabs
+
+Scan the QR code to follow along on your phone.

@@ -26,12 +26,13 @@ export default function Home() {
             <div className="flex items-center justify-between">
               <div className="space-y-1">
                 <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-                  The Beauty of Complex Numbers
+                  Technical Debt & The Beauty of Complex-Valued Geometry and
+                  Arithmetic
                 </h3>
                 <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                  A journey through the elegance of complex numbers in
-                  mathematics — from Euler&apos;s identity to the Riemann
-                  sphere.
+                  From Gauss&apos;s 1831 complaint through the Eisenstein
+                  lattice and the Gosper island to GQ128 — a complex
+                  floating-point format with isotropic quantization error.
                 </p>
               </div>
               <span className="shrink-0 text-zinc-300 transition-transform group-hover:translate-x-1 group-hover:text-zinc-500 dark:text-zinc-600 dark:group-hover:text-zinc-400">

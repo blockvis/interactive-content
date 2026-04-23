@@ -1,0 +1,171 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=Generator content="Microsoft Word 15 (filtered)">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:11.0pt;
+	font-family:"Times New Roman",serif;}
+.MsoChpDefault
+	{font-size:11.0pt;}
+@page WordSection1
+	{size:595.3pt 841.9pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+
+</head>
+
+<body lang=en-LV link="#0563C1" vlink="#96607D" style='word-wrap:break-word'>
+
+<div class=WordSection1>
+
+<p class=MsoNormal align=center style='margin-bottom:10.0pt;text-align:center'><b><span
+style='font-size:14.0pt'>TECHNICAL DEBT &amp; THE BEAUTY OF COMPLEX-VALUED
+GEOMETRY AND ARITHMETIC</span></b></p>
+
+<p class=MsoNormal align=center style='margin-bottom:3.0pt;text-align:center'><b><span
+style='font-size:12.0pt'>Anatoly Ressin</span></b></p>
+
+<p class=MsoNormal align=center style='margin-bottom:3.0pt;text-align:center'>Blockvis
+SIA, BlockvisLabs</p>
+
+<p class=MsoNormal align=center style='margin-bottom:3.0pt;text-align:center'>Latgales
+iela 240-3, room 504, Riga, LV-1063, Latvia</p>
+
+<p class=MsoNormal align=center style='margin-bottom:10.0pt;text-align:center'>anatoly@blockvis.com</p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;text-align:justify;line-height:
+115%'><b>Keywords: </b>History and Technical Debt of Mathematics, Eisenstein
+Integers, Gosper Island, Positional Coding, GQ128 Format, AI Visualization</p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;text-align:justify;line-height:
+115%'>In 1831, Gauss (1831) lamented that complex numbers had been “enveloped
+in mystery and surrounded by darkness” — and blamed not the mathematics but the
+words. Had +1, −1, and √−1 been named <i>direct</i>, <i>inverse</i>, and <i>lateral</i>
+rather than <i>positive</i>, <i>negative</i>, and <i>imaginary</i>, the
+darkness would never have formed. The notation descended from Euler (1748),
+whose <i>Introductio</i> cemented conventions modern students still inherit.
+This talk takes Gauss’s complaint further than he did — through the axes, the
+matrix layout, the lattice, and the unit interval — arguing that each layer of
+the standard formalism carries a technical debt whose repayment reveals
+unexpected beauty.</p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;text-align:justify;line-height:
+115%'>The complex plane, first given geometric form by the Norwegian surveyor
+Wessel (1799), was born in a navigational frame where <i>forward</i> pointed up
+and <i>lateral</i> pointed sideways. In this orientation the positive rotation
+from Re to Im runs clockwise — matching a compass and a clock. The Argand
+diagram inherited the Cartesian convention instead: Re horizontal,
+counter-clockwise positive rotation. Restoring Wessel’s frame makes e<sup>iθ</sup>
+turn like a clock hand and recovers Gauss’s <i>direct</i> and <i>lateral</i>
+units. A second debt hides in matrix notation: the standard 2×2 layout of a
+Hermitian matrix H = H<sup>†</sup> presents its symmetry as an algebraic
+constraint. Standing the matrix on its corner as a diamond turns
+conjugate-transpose into a visible geometric reflection — the off-diagonal
+entries z and ̅z become literal mirror images across the vertical diagonal.</p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;text-align:justify;line-height:
+115%'>These are representational debts. The deeper one is structural. Gauss’s
+treatise also introduced the <i>Gaussian integers</i> ℤ[i], encoding the 90°
+convention as a square lattice. Yet the square lattice is not optimal: the
+hexagonal lattice is denser, with six equidistant neighbours per point rather
+than four. The <i>Eisenstein integers</i> ℤ[ω], where ω = e<sup>2πi/3</sup>
+satisfies ω² + ω + 1 = 0, form precisely this hexagonal lattice (Eisenstein,
+1844; Ireland and Rosen, 1990). Their norm N(a + bω) = a² − ab + b² is the
+quadratic form of 60° geometry, and they constitute a Euclidean domain. The
+hexagonal lattice is not a generalisation; it is a correction.</p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;text-align:justify;line-height:
+115%'>Knuth (1960) first observed that a complex number could serve as the base
+of a positional numeral system. The Eisenstein setting yields the most elegant
+instance: choosing β = 2 − ω gives N(β) = 4 − 2 + 1 = 7, so there are exactly
+seven residue classes and the digit set is D = {0, 1, 2, 3, 4, 5, 6}. Every
+Eisenstein integer then admits a unique finite representation:</p>
+
+<p class=MsoNormal align=center style='margin-top:6.0pt;margin-right:0cm;
+margin-bottom:6.0pt;margin-left:0cm;text-align:center'><i>z = d<sub>n</sub> · β<sup>n</sup>
++ d<sub>n−1</sub> · β<sup>n−1</sup> + ··· + d<sub>0</sub>,   d<sub>k</sub> ∈
+D     (1)</i></p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;text-align:justify;line-height:
+115%'>The analogous “unit interval” — the attractor of all infinite digit
+expansions over D — is not an interval but a fractal: the Gosper island, built
+from seven self-similar copies at factor 1/√7, first described by Gardner
+(1976) and named by Mandelbrot (1977). It tiles the plane by translation alone,
+with no gaps and a boundary nowhere smooth.</p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;text-align:justify;line-height:
+115%'>These observations converge at a practical consequence. The talk
+introduces GQ128 — a 128-bit complex floating-point format whose mantissa is an
+Eisenstein integer rather than an ordinary integer. Just as the Setun ternary
+computer (Brusentsov and Ramil Alvarez, 2011) exploited balanced ternary to
+achieve more efficient <i>real</i> arithmetic, GQ128 exploits the hexagonal
+lattice of ℤ[ω] to achieve more efficient <i>complex</i> arithmetic: its
+quantization error is isotropic — uniform in all directions in the complex plane
+— a property structurally impossible on the square lattice underlying IEEE 754.
+All concepts, from the navigational axis swap through the Gosper island to
+GQ128, are demonstrated through interactive visualizations generated in real
+time by AI, with no conventional slides.</p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;line-height:115%'>&nbsp;</p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;line-height:115%'><i>The research
+is supervised by Prof. Dr.Math. Jekaterina Gromova &amp; Prof. Dr.Phys. Dmitry
+Bocharov.</i></p>
+
+<p class=MsoNormal style='margin-top:12.0pt;margin-right:0cm;margin-bottom:
+6.0pt;margin-left:0cm'><b>References</b></p>
+
+<p class=MsoNormal style='margin-bottom:5.0pt'>Brusentsov, N.P. and Ramil
+Alvarez, J. (2011) Ternary Computers: The Setun and the Setun 70. </p>
+
+<p class=MsoNormal style='margin-bottom:5.0pt'>Eisenstein, G. (1844) Beweis des
+Reciprocitätssatzes für die cubischen Reste in der Theorie der aus dritten
+Wurzeln der Einheit zusammengesetzten complexen Zahlen. <i>Journal für die
+reine und angewandte Mathematik</i>, 27.</p>
+
+<p class=MsoNormal style='margin-bottom:5.0pt'>Euler, L. (1748) <i>Introductio
+in analysin infinitorum</i>. Lausanne: Marcum-Michaelem Bousquet.</p>
+
+<p class=MsoNormal style='margin-bottom:5.0pt'>Gardner, M. (1976) Mathematical
+games. <i>Scientific American</i>, 235(6). </p>
+
+<p class=MsoNormal style='margin-bottom:5.0pt'>Gauss, C.F. (1831) Theoria
+residuorum biquadraticorum, Commentatio secunda. <i>Göttingische gelehrte
+Anzeigen</i>, 64.</p>
+
+<p class=MsoNormal style='margin-bottom:5.0pt'>Ireland, K. and Rosen, M. (1990)
+<i>A Classical Introduction to Modern Number Theory</i>, 2nd ed.
+Springer-Verlag.</p>
+
+<p class=MsoNormal style='margin-bottom:5.0pt'>Knuth, D.E. (1960) An imaginary
+number system. <i>Communications of the ACM</i>, 3(4).</p>
+
+<p class=MsoNormal style='margin-bottom:5.0pt'>Mandelbrot, B.B. (1977) <i>Fractals:
+Form, Chance, and Dimension</i>. W.H. Freeman.</p>
+
+<p class=MsoNormal style='margin-bottom:5.0pt'>Wessel, C. (1799) Om
+directionens analytiske betegning. <i>Nye samling af det Kongelige Danske
+Videnskabernes Selskabs Skrifter</i>, 5.</p>
+
+</div>
+
+</body>
+
+</html>
