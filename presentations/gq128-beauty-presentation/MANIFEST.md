@@ -10,7 +10,7 @@ The presentation content itself covers the historical beauty of complex numbers 
 
 ### Content authoring
 
-All slide content lives in this `example/` directory as plain Markdown files:
+All slide content lives in this presentation directory (`presentations/gq128-beauty-presentation/`) as plain Markdown files:
 
 ```
 slide001.ru.md   ← Slide 1, Russian (original language)

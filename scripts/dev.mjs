@@ -11,7 +11,10 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const contentDirArg = process.argv[2];
-const CONTENT_DIR = path.resolve(ROOT, contentDirArg || "example");
+const CONTENT_DIR = path.resolve(
+  ROOT,
+  contentDirArg || "presentations/gq128-beauty-presentation"
+);
 const NEXT_CLI = path.join(ROOT, "node_modules/next/dist/bin/next");
 
 function runCompile() {

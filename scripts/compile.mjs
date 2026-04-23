@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 /**
- * Prebuild script: compiles Markdown slides from example/ into
- * src/generated/slides.json and copies images to public/content/.
+ * Prebuild script: compiles Markdown slides from a presentation directory
+ * into src/generated/slides.json and copies images to public/content/.
  *
  * Usage: node scripts/compile.mjs [content-dir]
- *   content-dir defaults to "example"
+ *   content-dir defaults to "presentations/gq128-beauty-presentation"
  */
 
 import fs from "node:fs";
@@ -13,7 +13,10 @@ import path from "node:path";
 import matter from "gray-matter";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
-const CONTENT_DIR = path.resolve(ROOT, process.argv[2] || "example");
+const CONTENT_DIR = path.resolve(
+  ROOT,
+  process.argv[2] || "presentations/gq128-beauty-presentation"
+);
 const OUT_JSON = path.resolve(ROOT, "src/generated/slides.json");
 const OUT_IMAGES = path.resolve(ROOT, "public/content/images");
 
