@@ -36,3 +36,10 @@ proactively propose or apply a manifest update. Examples:
   chat, wait for confirmation before committing.
 - Keep the manifest concise, in Russian, using the existing tone.
 - Never silently remove or rewrite existing sections.
+
+## What does NOT belong in the manifest
+
+Operational notes — local dev workflow, CI, deployment, release
+checklists, editor tips — live in their own files under `meta/`
+(e.g. `meta/local-dev.ru.md`), not in `MANIFEST.ru.md`. The manifest
+describes **what we build**; these files describe **how we build it**.
