@@ -1,0 +1,38 @@
+---
+description: Chat-first manifest workflow; Russian manifest is canonical
+alwaysApply: true
+---
+
+# Manifest workflow
+
+Project intent, architecture and policy decisions live in the manifest.
+The owner prefers discussing these things in chat rather than editing
+the manifest by hand — so the agent is responsible for keeping the
+manifest in sync with the conversation.
+
+## Canonical manifest
+
+- Canonical file: `meta/MANIFEST.ru.md` (Russian).
+- The owner thinks and writes in Russian. This may change later; until
+  it does, other-language manifests are treated as translations of the
+  Russian canonical version.
+
+## What to capture from chat
+
+When a chat turn produces an architecturally meaningful decision,
+proactively propose or apply a manifest update. Examples:
+
+- Repository layout rules (e.g. `presentations/<slug>/` as URL path).
+- Content pipeline decisions (compile defaults, watcher behaviour).
+- Naming conventions, slugs, canonical languages.
+- Technology and dependency policies.
+- Meta-rules about how the agent and owner collaborate.
+
+## How to apply updates
+
+- Small factual additions (a new bullet, a status update): edit the
+  manifest directly and mention the change in the reply.
+- Larger restructuring or new sections: draft the change, show it in
+  chat, wait for confirmation before committing.
+- Keep the manifest concise, in Russian, using the existing tone.
+- Never silently remove or rewrite existing sections.
