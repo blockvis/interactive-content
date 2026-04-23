@@ -1,17 +1,48 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+
 import {
   getSlide,
   getSlidesForLang,
   languages,
+  presentation,
+  presentationClass,
   totalSlides,
 } from "@/lib/slides";
+import type { LayoutName, PlatformSlots } from "@/lib/class-module";
+import classModule from "@/generated/class";
+import defaultClassModule from "@default-class/index";
 import { SlideNav } from "@/components/slide-nav";
 import { SlideQRCode } from "@/components/qr-code";
-import { MarkdownSlide } from "@/components/markdown-slide";
 import { LanguageSwitcher } from "@/components/language-switcher";
-import type { Metadata } from "next";
 
 const SLUG = "gq128-beauty-presentation";
+
+interface NavTokens {
+  showSlideNumber?: boolean;
+  showLanguageSwitcher?: boolean;
+}
+interface QrTokens {
+  size?: number;
+  caption?: string | null;
+}
+interface ClassChrome {
+  nav?: NavTokens;
+  qrTitle?: QrTokens;
+  qrPerSlide?: QrTokens;
+}
+
+function getChrome(): ClassChrome {
+  return (presentationClass?.chrome ?? {}) as ClassChrome;
+}
+
+function resolveLayout(name: LayoutName) {
+  return (
+    classModule.layouts[name] ??
+    defaultClassModule.layouts[name] ??
+    defaultClassModule.layouts.content!
+  );
+}
 
 export function generateStaticParams() {
   const params: { lang: string; id: string }[] = [];
@@ -31,8 +62,10 @@ export async function generateMetadata({
   const { lang, id } = await params;
   const slide = getSlide(lang, Number(id));
   if (!slide) return {};
+  const suffix =
+    presentation?.title ?? presentationClass?.name ?? "Presentation";
   return {
-    title: `${slide.title} — Complex Presentation`,
+    title: `${slide.title} — ${suffix}`,
     description: slide.body.slice(0, 160),
   };
 }
@@ -48,53 +81,74 @@ export default async function SlidePage({
 
   if (!slide) notFound();
 
-  const slidePath = `/${SLUG}/slides/${lang}/${slide.id}`;
   const total = totalSlides(lang);
   const routePrefix = `/${SLUG}`;
+  const slidePath = `${routePrefix}/slides/${lang}/${slide.id}`;
+
+  const chrome = getChrome();
+  const showSlideNumber = chrome.nav?.showSlideNumber !== false;
+  const showLanguageSwitcher = chrome.nav?.showLanguageSwitcher !== false;
+
+  const isTitle = slide.layout === "title";
+
+  // QR policy (platform invariants, not layout choice):
+  //  - title slide: mandatory big QR → presentation root
+  //  - non-title: corner QR only if class activated qrPerSlide AND slide.qr
+  const qrPerSlideActive = Boolean(chrome.qrPerSlide);
+  const showCornerQr = !isTitle && slide.qr && qrPerSlideActive;
+
+  const titleQr = isTitle ? (
+    <SlideQRCode
+      path={`/${SLUG}/`}
+      size={chrome.qrTitle?.size ?? 320}
+      caption={chrome.qrTitle?.caption}
+    />
+  ) : null;
+
+  const cornerQr = showCornerQr ? (
+    <SlideQRCode
+      path={slidePath}
+      size={chrome.qrPerSlide?.size ?? 128}
+      caption={chrome.qrPerSlide?.caption}
+    />
+  ) : null;
+
+  const nav = (
+    <SlideNav
+      currentSlide={slideId}
+      totalSlides={total}
+      lang={lang}
+      routePrefix={routePrefix}
+      showSlideNumber={showSlideNumber}
+    />
+  );
+
+  const languageSwitcher = showLanguageSwitcher ? (
+    <LanguageSwitcher
+      currentLang={lang}
+      currentSlide={slideId}
+      routePrefix={routePrefix}
+    />
+  ) : null;
+
+  const platform: PlatformSlots = {
+    lang,
+    slideNumber: slideId,
+    total,
+    nav,
+    languageSwitcher,
+    titleQr,
+    cornerQr,
+  };
+
+  const Layout = resolveLayout(slide.layout);
 
   return (
-    <div className="flex h-dvh flex-col overflow-hidden px-6 py-10 sm:py-16">
-      <header className="mx-auto flex w-full max-w-3xl shrink-0 items-center justify-between">
-        <div className="text-sm font-medium text-zinc-400 dark:text-zinc-500">
-          Complex Presentation
-        </div>
-        <LanguageSwitcher
-          currentLang={lang}
-          currentSlide={slideId}
-          routePrefix={routePrefix}
-        />
-      </header>
-
-      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center gap-8 overflow-y-auto py-8 sm:flex-row sm:items-center sm:gap-16 sm:overflow-visible sm:pb-12">
-        <div className="flex flex-1 flex-col gap-4 text-center sm:text-left">
-          {slide.subtitle && (
-            <p className="text-sm font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
-              {slide.subtitle}
-            </p>
-          )}
-          <h1 className="text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
-            {slide.title}
-          </h1>
-          <div className="text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
-            <MarkdownSlide content={slide.body} />
-          </div>
-        </div>
-
-        <div className="hidden shrink-0 sm:block">
-          <SlideQRCode path={slidePath} />
-        </div>
-      </main>
-
-      <footer className="mx-auto w-full max-w-3xl shrink-0 border-t border-zinc-100 pt-4 sm:border-0 sm:pt-0 dark:border-zinc-800">
-        <div className="flex justify-center">
-          <SlideNav
-            currentSlide={slideId}
-            totalSlides={total}
-            lang={lang}
-            routePrefix={routePrefix}
-          />
-        </div>
-      </footer>
-    </div>
+    <Layout
+      slide={slide}
+      presentation={presentation}
+      classMeta={presentationClass}
+      platform={platform}
+    />
   );
 }

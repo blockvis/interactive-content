@@ -3,7 +3,16 @@
 import { useEffect, useState } from "react";
 import { QRCodeSVG } from "qrcode.react";
 
-export function SlideQRCode({ path }: { path: string }) {
+export function SlideQRCode({
+  path,
+  size = 120,
+  caption,
+}: {
+  path: string;
+  size?: number;
+  /** Explicit caption from class tokens. If omitted, the URL is shown instead. */
+  caption?: string | null;
+}) {
   const [origin, setOrigin] = useState<string | null>(null);
 
   useEffect(() => {
@@ -15,13 +24,19 @@ export function SlideQRCode({ path }: { path: string }) {
   return (
     <div className="flex flex-col items-center gap-2">
       <div className="rounded-xl bg-white p-3 shadow-sm">
-        <div className="h-[120px] w-[120px]">
-          {origin && <QRCodeSVG value={url} size={120} level="M" />}
+        <div style={{ width: size, height: size }}>
+          {origin && <QRCodeSVG value={url} size={size} level="M" />}
         </div>
       </div>
-      <span className="text-xs text-zinc-400 dark:text-zinc-500 max-w-[160px] truncate">
-        {origin ? url.replace(/^https?:\/\//, "") : "\u00a0"}
-      </span>
+      {caption ? (
+        <span className="max-w-[260px] text-center text-xs text-zinc-500 dark:text-zinc-400">
+          {caption}
+        </span>
+      ) : (
+        <span className="max-w-[180px] truncate text-xs text-zinc-400 dark:text-zinc-500">
+          {origin ? url.replace(/^https?:\/\//, "") : "\u00a0"}
+        </span>
+      )}
     </div>
   );
 }

@@ -25,3 +25,32 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Any element tagged as a presentation class root adopts the class's
+   typography and palette via the --class-* custom properties emitted
+   by src/app/<slug>/layout.tsx. */
+[data-presentation-class] {
+  min-height: 100dvh;
+  background-color: var(--class-background, inherit);
+  color: var(--class-foreground, inherit);
+  font-family: var(--class-font-body, inherit);
+}
+
+/* Presentation / Reader modes.
+   QR chrome is visible by default on wide viewports (presentation mode)
+   and hidden on narrow viewports (reader mode). The `?mode=` query param,
+   captured by <ModeGate/>, can force either state regardless of width. */
+[data-qr] {
+  display: none;
+}
+@media (min-width: 768px) {
+  [data-qr] {
+    display: block;
+  }
+}
+[data-mode-override="presentation"] [data-qr] {
+  display: block;
+}
+[data-mode-override="reader"] [data-qr] {
+  display: none;
+}

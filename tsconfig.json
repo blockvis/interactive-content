@@ -19,7 +19,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@presentation/*": ["./presentations/gq128-beauty-presentation/*"],
+      "@default-class/*": ["./presentation-classes/example/*"]
     }
   },
   "include": [

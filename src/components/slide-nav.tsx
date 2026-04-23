@@ -9,11 +9,13 @@ export function SlideNav({
   totalSlides,
   lang,
   routePrefix = "",
+  showSlideNumber = true,
 }: {
   currentSlide: number;
   totalSlides: number;
   lang: string;
   routePrefix?: string;
+  showSlideNumber?: boolean;
 }) {
   const router = useRouter();
   const hasPrev = currentSlide > 1;
@@ -47,14 +49,20 @@ export function SlideNav({
         </span>
       )}
 
-      <span className="text-sm tabular-nums text-zinc-400 dark:text-zinc-500">
-        {currentSlide}/{totalSlides}
-      </span>
+      {showSlideNumber && (
+        <span className="text-sm tabular-nums text-zinc-400 dark:text-zinc-500">
+          {currentSlide}/{totalSlides}
+        </span>
+      )}
 
       {hasNext ? (
         <Link
           href={`${routePrefix}/slides/${lang}/${currentSlide + 1}`}
-          className="flex h-10 items-center gap-2 rounded-full bg-zinc-900 px-5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+          className="flex h-10 items-center gap-2 rounded-full px-5 text-sm font-medium transition-opacity hover:opacity-90"
+          style={{
+            backgroundColor: "var(--class-primary, #0f172a)",
+            color: "var(--class-background, white)",
+          }}
         >
           Next <span aria-hidden>→</span>
         </Link>

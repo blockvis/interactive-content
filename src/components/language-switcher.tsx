@@ -25,19 +25,30 @@ export function LanguageSwitcher({
 
   return (
     <div className="flex items-center gap-1">
-      {languages.map((lang) => (
-        <Link
-          key={lang}
-          href={`${routePrefix}/slides/${lang}/${currentSlide}`}
-          className={`rounded px-2 py-1 text-xs font-medium transition-colors ${
-            lang === currentLang
-              ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-900"
-              : "text-zinc-400 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-300"
-          }`}
-        >
-          {LANG_LABELS[lang] ?? lang.toUpperCase()}
-        </Link>
-      ))}
+      {languages.map((lang) => {
+        const active = lang === currentLang;
+        return (
+          <Link
+            key={lang}
+            href={`${routePrefix}/slides/${lang}/${currentSlide}`}
+            className={`rounded px-2 py-1 text-xs font-medium transition-colors ${
+              active
+                ? ""
+                : "text-zinc-400 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-300"
+            }`}
+            style={
+              active
+                ? {
+                    backgroundColor: "var(--class-primary, #0f172a)",
+                    color: "var(--class-background, white)",
+                  }
+                : undefined
+            }
+          >
+            {LANG_LABELS[lang] ?? lang.toUpperCase()}
+          </Link>
+        );
+      })}
     </div>
   );
 }
