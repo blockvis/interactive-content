@@ -27,12 +27,18 @@ function classTokensToCssVars(): StyleVars {
 
   const chrome = cls.chrome as {
     nav?: { height?: string };
-    brandStripe?: { height?: string; dark?: string; light?: string };
+    brandStripe?: {
+      height?: string;
+      fontSize?: string;
+      dark?: string;
+      light?: string;
+    };
   } | null;
   if (chrome?.nav?.height) vars["--class-nav-height"] = chrome.nav.height;
   if (chrome?.brandStripe) {
     const bs = chrome.brandStripe;
     if (bs.height) vars["--class-stripe-height"] = bs.height;
+    if (bs.fontSize) vars["--class-stripe-font-size"] = bs.fontSize;
     if (bs.dark) vars["--class-stripe-dark"] = bs.dark;
     if (bs.light) vars["--class-stripe-light"] = bs.light;
   }

@@ -17,7 +17,11 @@ export default function RatsifTitleLayout({
   platform,
 }: LayoutProps) {
   const authors = presentation?.authors ?? [];
-  const slideNumber = `${platform.slideNumber} / ${platform.total}`;
+  const slideNumber = (
+    <span className="text-[1.25em] font-extrabold tracking-wider">
+      {platform.slideNumber} / {platform.total}
+    </span>
+  );
 
   return (
     <div className="relative flex h-dvh flex-col overflow-hidden px-6 py-10 sm:py-16">

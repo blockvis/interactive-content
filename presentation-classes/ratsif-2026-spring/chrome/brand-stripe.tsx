@@ -23,10 +23,13 @@ export function BrandStripe({
 }) {
   return (
     <div
-      className={`pointer-events-none absolute inset-x-0 z-20 flex text-[11px] font-medium text-white ${
+      className={`pointer-events-none absolute inset-x-0 z-20 flex font-medium text-white ${
         position === "top" ? "top-0" : "bottom-0"
       }`}
-      style={{ height: "var(--class-stripe-height, 0)" }}
+      style={{
+        height: "var(--class-stripe-height, 0)",
+        fontSize: "var(--class-stripe-font-size, 16px)",
+      }}
     >
       <StripeHalf slots={left} bg="var(--class-stripe-dark)" />
       <StripeHalf slots={right} bg="var(--class-stripe-light)" />

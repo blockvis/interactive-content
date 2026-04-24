@@ -78,9 +78,10 @@ chrome:
   # Поведение по слайдам задаётся платформой: non-title = top+bottom, title = bottom-only.
   brandStripe:
     enabled: true
-    height: "28px"        # pptx-мастер: 0.28″/7.5″ ≈ 3.7% высоты, в вебе ~28px
-    dark:   "#214673"     # TSI navy, left half
-    light:  "#2683C6"     # Retrospect accent2, right half
+    height:   "48px"      # pptx-мастер: 0.28″/7.5″ ≈ 3.7% высоты; в вебе 48px даёт воздух под читаемый шрифт
+    fontSize: "20px"      # презентационный размер: читается с задних рядов проектора
+    dark:     "#214673"   # TSI navy, left half
+    light:    "#2683C6"   # Retrospect accent2, right half
 
   # Sticky footer-навигация — обязательна на каждом слайде (платформа).
   nav:
