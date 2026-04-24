@@ -2,17 +2,16 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import {
-  defaultLanguage,
   getSlide,
   getSlidesForLang,
-  languages,
-  presentation,
-  presentationClass,
+  getPresentationData,
   totalSlides,
+  getAllPresentationSlugs,
+  type ClassMeta,
 } from "@/lib/slides";
 import type { LayoutName, PlatformSlots } from "@/lib/class-module";
 import { resolveI18n, TAB_LABELS, type Localized } from "@/lib/i18n";
-import classModule from "@/generated/class";
+import getClassModule from "@/generated/class";
 import defaultClassModule from "@default-class/index";
 import { ReaderSlideNav, SlideNav } from "@/components/slide-nav";
 import { SlideQRCode } from "@/components/qr-code";
@@ -24,8 +23,6 @@ import {
   SlideTabsSwitcher,
 } from "@/components/slide-tabs";
 import { TranslationBadge } from "@/components/translation-badge";
-
-const SLUG = "gq128-beauty-presentation";
 
 interface NavTokens {
   showSlideNumber?: boolean;
@@ -46,23 +43,28 @@ interface ClassChrome {
   tabs?: TabsTokens;
 }
 
-function getChrome(): ClassChrome {
+function getChrome(presentationClass: ClassMeta | null): ClassChrome {
   return (presentationClass?.chrome ?? {}) as ClassChrome;
 }
 
-function resolveLayout(name: LayoutName) {
+function resolveLayout(name: LayoutName, classSlug: string | null) {
+  const classModule = getClassModule(classSlug);
   return (
-    classModule.layouts[name] ??
+    classModule?.layouts?.[name] ??
     defaultClassModule.layouts[name] ??
     defaultClassModule.layouts.content!
   );
 }
 
 export function generateStaticParams() {
-  const params: { lang: string; id: string }[] = [];
-  for (const lang of languages) {
-    for (const slide of getSlidesForLang(lang)) {
-      params.push({ lang, id: String(slide.id) });
+  const params: { slug: string; lang: string; id: string }[] = [];
+  for (const slug of getAllPresentationSlugs()) {
+    const p = getPresentationData(slug);
+    if (!p) continue;
+    for (const lang of p.languages) {
+      for (const slide of getSlidesForLang(slug, lang)) {
+        params.push({ slug, lang, id: String(slide.id) });
+      }
     }
   }
   return params;
@@ -71,13 +73,16 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ lang: string; id: string }>;
+  params: Promise<{ slug: string; lang: string; id: string }>;
 }): Promise<Metadata> {
-  const { lang, id } = await params;
-  const slide = getSlide(lang, Number(id));
+  const { slug, lang, id } = await params;
+  const p = getPresentationData(slug);
+  if (!p) return {};
+  
+  const slide = getSlide(slug, lang, Number(id));
   if (!slide) return {};
   const suffix =
-    presentation?.title ?? presentationClass?.name ?? "Presentation";
+    p.presentation?.title ?? p.class?.name ?? "Presentation";
   return {
     title: `${slide.title} — ${suffix}`,
     description: slide.content.slice(0, 160),
@@ -87,19 +92,24 @@ export async function generateMetadata({
 export default async function SlidePage({
   params,
 }: {
-  params: Promise<{ lang: string; id: string }>;
+  params: Promise<{ slug: string; lang: string; id: string }>;
 }) {
-  const { lang, id } = await params;
+  const { slug, lang, id } = await params;
+  
+  const p = getPresentationData(slug);
+  if (!p) notFound();
+
   const slideId = Number(id);
-  const slide = getSlide(lang, slideId);
+  const slide = getSlide(slug, lang, slideId);
 
   if (!slide) notFound();
 
-  const total = totalSlides(lang);
-  const routePrefix = `/${SLUG}`;
+  const total = totalSlides(slug, lang);
+  const routePrefix = `/${slug}`;
   const slidePath = `${routePrefix}/slides/${lang}/${slide.id}`;
 
-  const chrome = getChrome();
+  const presentationClass = p.class;
+  const chrome = getChrome(presentationClass);
   const showLanguageSwitcher = chrome.nav?.showLanguageSwitcher !== false;
 
   const isTitle = slide.layout === "title";
@@ -110,11 +120,11 @@ export default async function SlidePage({
   const qrPerSlideActive = Boolean(chrome.qrPerSlide);
   const showCornerQr = !isTitle && slide.qr && qrPerSlideActive;
 
-  const fallbackLang = languages[0];
+  const fallbackLang = p.languages[0];
 
   const titleQr = isTitle ? (
     <SlideQRCode
-      path={`/${SLUG}/`}
+      path={`/${slug}/`}
       size={chrome.qrTitle?.size ?? 320}
       caption={resolveI18n(chrome.qrTitle?.caption, lang, fallbackLang)}
     />
@@ -128,7 +138,7 @@ export default async function SlidePage({
     />
   ) : null;
 
-  const slidesList = getSlidesForLang(lang).map((s) => ({
+  const slidesList = getSlidesForLang(slug, lang).map((s) => ({
     id: s.id,
     title: s.title,
   }));
@@ -156,14 +166,15 @@ export default async function SlidePage({
       currentLang={lang}
       currentSlide={slideId}
       routePrefix={routePrefix}
+      languages={p.languages}
     />
   ) : null;
 
   const hasBackstage = Boolean(slide.backstage && slide.backstage.length > 0);
 
-  const contentNode = <MarkdownSlide content={slide.content} />;
+  const contentNode = <MarkdownSlide content={slide.content} presentationSlug={slug} classSlug={presentationClass?.slug ?? null} />;
   const backstageNode = hasBackstage ? (
-    <MarkdownSlide content={slide.backstage!} />
+    <MarkdownSlide content={slide.backstage!} presentationSlug={slug} classSlug={presentationClass?.slug ?? null} />
   ) : null;
 
   const tabLabels = {
@@ -185,9 +196,9 @@ export default async function SlidePage({
   // translation and gets a badge; `translatedBy` (if set by the translate
   // script) switches the badge into "AI" mode with the model id.
   const translationBadge =
-    lang !== defaultLanguage ? (
+    lang !== p.defaultLanguage ? (
       <TranslationBadge
-        sourceLang={defaultLanguage}
+        sourceLang={p.defaultLanguage}
         model={slide.translatedBy}
       />
     ) : null;
@@ -206,12 +217,12 @@ export default async function SlidePage({
     translationBadge,
   };
 
-  const Layout = resolveLayout(slide.layout);
+  const Layout = resolveLayout(slide.layout, presentationClass?.slug ?? null);
 
   const rendered = (
     <Layout
       slide={slide}
-      presentation={presentation}
+      presentation={p.presentation}
       classMeta={presentationClass}
       platform={platform}
     />

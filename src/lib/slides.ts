@@ -4,31 +4,11 @@ export interface Slide {
   id: number;
   title: string;
   subtitle?: string;
-  /** Role of the slide; drives chrome decisions (QR, layout choice). */
   layout: "title" | "section" | "content";
-  /** Optional section label shown in the top brand stripe (empty → blank). */
   section?: string;
-  /** Whether the per-slide corner QR is allowed on this slide (default true). */
   qr: boolean;
-  /**
-   * Main slide body — what the audience sees on the projector.
-   * Always present (may be empty string for a backstage-only slide).
-   */
   content: string;
-  /**
-   * Optional backstage materials — the "talk page" to the slide's "article":
-   * extended reading, references, interactive demos for self-study. Authored
-   * in the same file as the slide, separated from `content` by a line with
-   * just the HTML comment `<!-- backstage -->`. Undefined means the slide
-   * has no backstage tab.
-   */
   backstage?: string;
-  /**
-   * Provenance of a machine-generated translation. Set by `scripts/translate.mjs`
-   * to the model id that produced the file (e.g. `claude-opus-4-7`). Undefined
-   * for canonical-language slides and for hand-authored translations — both are
-   * rendered without the "AI translation" badge.
-   */
   translatedBy?: string;
 }
 
@@ -36,7 +16,6 @@ export interface Author {
   name: string;
   affiliation?: string;
   role?: string;
-  /** Optional contact lines, rendered by class layouts in side panels. */
   email?: string;
   url?: string;
 }
@@ -45,7 +24,6 @@ export interface PresentationMeta {
   slug: string;
   title: string | null;
   subtitle: string | null;
-  /** Compact variant of `title` for chrome / stripes. Fallback: `title`. */
   shortTitle: string | null;
   authors: Author[];
   class: string | null;
@@ -65,7 +43,7 @@ export interface ClassMeta {
   meta: Record<string, unknown>;
 }
 
-interface SlidesData {
+interface PresentationData {
   presentation: PresentationMeta;
   class: ClassMeta | null;
   languages: string[];
@@ -73,23 +51,29 @@ interface SlidesData {
   slides: Record<string, Slide[]>;
 }
 
-const slidesData = data as unknown as SlidesData;
+const allPresentations = data as unknown as Record<string, PresentationData>;
 
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://interactive.blockvis.com";
 
-export const { languages, defaultLanguage } = slidesData;
-export const presentation: PresentationMeta = slidesData.presentation;
-export const presentationClass: ClassMeta | null = slidesData.class;
-
-export function getSlidesForLang(lang: string): Slide[] {
-  return slidesData.slides[lang] ?? [];
+export function getPresentationData(slug: string): PresentationData | undefined {
+  return allPresentations[slug];
 }
 
-export function getSlide(lang: string, id: number): Slide | undefined {
-  return getSlidesForLang(lang).find((s) => s.id === id);
+export function getSlidesForLang(slug: string, lang: string): Slide[] {
+  const p = getPresentationData(slug);
+  if (!p) return [];
+  return p.slides[lang] ?? [];
 }
 
-export function totalSlides(lang: string): number {
-  return getSlidesForLang(lang).length;
+export function getSlide(slug: string, lang: string, id: number): Slide | undefined {
+  return getSlidesForLang(slug, lang).find((s) => s.id === id);
+}
+
+export function totalSlides(slug: string, lang: string): number {
+  return getSlidesForLang(slug, lang).length;
+}
+
+export function getAllPresentationSlugs(): string[] {
+  return Object.keys(allPresentations);
 }

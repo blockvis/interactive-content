@@ -8,8 +8,8 @@ import remarkDirective from "remark-directive";
 import rehypeKatex from "rehype-katex";
 import { visit } from "unist-util-visit";
 import "katex/dist/katex.min.css";
-import { components as presentationComponents } from "@presentation/components";
-import classModule from "@/generated/class";
+import getClassModule from "@/generated/class";
+import { getPresentationComponents } from "@/generated/components";
 
 /**
  * Resolution chain for directive components, specificity high → low:
@@ -18,7 +18,6 @@ import classModule from "@/generated/class";
  *   platform-level     (future: default primitives like <Aside/>)
  */
 const PLATFORM_COMPONENTS: Record<string, unknown> = {};
-const CLASS_COMPONENTS = classModule.components ?? {};
 
 /**
  * Rewrites remark-directive nodes into hast-compatible elements. The
@@ -73,13 +72,25 @@ function remarkDirectiveToHast() {
   };
 }
 
-const slideComponents = {
-  ...PLATFORM_COMPONENTS,
-  ...CLASS_COMPONENTS,
-  ...presentationComponents,
-} as unknown as Components;
+export function MarkdownSlide({
+  content,
+  presentationSlug,
+  classSlug,
+}: {
+  content: string;
+  presentationSlug: string;
+  classSlug: string | null;
+}) {
+  const classModule = getClassModule(classSlug);
+  const CLASS_COMPONENTS = classModule?.components ?? {};
+  const presentationComponents = getPresentationComponents(presentationSlug);
 
-export function MarkdownSlide({ content }: { content: string }) {
+  const slideComponents = {
+    ...PLATFORM_COMPONENTS,
+    ...CLASS_COMPONENTS,
+    ...presentationComponents,
+  } as unknown as Components;
+
   return (
     <div className="prose prose-zinc dark:prose-invert max-w-none">
       <ReactMarkdown

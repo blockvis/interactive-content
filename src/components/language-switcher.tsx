@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { languages } from "@/lib/slides";
 
 /**
  * Full language names for the dropdown. Short codes (ru, en, lv, …)
@@ -62,10 +61,12 @@ export function LanguageSwitcher({
   currentLang,
   currentSlide,
   routePrefix = "",
+  languages,
 }: {
   currentLang: string;
   currentSlide: number;
   routePrefix?: string;
+  languages: string[];
 }) {
   const router = useRouter();
   if (languages.length <= 1) return null;

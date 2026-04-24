@@ -20,7 +20,6 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@presentation/*": ["./presentations/gq128-beauty-presentation/*"],
       "@default-class/*": ["./presentation-classes/example/*"]
     }
   },

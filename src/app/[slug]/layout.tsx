@@ -1,13 +1,12 @@
 import type { CSSProperties, ReactNode } from "react";
-import { presentationClass } from "@/lib/slides";
+import { getPresentationData, type ClassMeta } from "@/lib/slides";
 import { resolveFont } from "@/lib/fonts";
 import { ModeGate } from "@/components/mode-gate";
 
 type StyleVars = Record<string, string | number>;
 
 /** Build `--class-*` CSS custom properties from the class token tree. */
-function classTokensToCssVars(): StyleVars {
-  const cls = presentationClass;
+function classTokensToCssVars(cls: ClassMeta | null): StyleVars {
   if (!cls) return {};
   const vars: StyleVars = {};
 
@@ -67,8 +66,7 @@ function classTokensToCssVars(): StyleVars {
 }
 
 /** next/font classNames inject their `--font-*` variables at the scope they're applied to. */
-function classFontClassNames(): string {
-  const cls = presentationClass;
+function classFontClassNames(cls: ClassMeta | null): string {
   if (!cls) return "";
   const h = resolveFont(
     (cls.fonts as { heading?: { family?: string } } | null)?.heading?.family,
@@ -81,16 +79,22 @@ function classFontClassNames(): string {
   );
 }
 
-export default function PresentationLayout({
+export default async function PresentationLayout({
   children,
+  params,
 }: {
   children: ReactNode;
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
+  const p = getPresentationData(slug);
+  const presentationClass = p?.class ?? null;
+
   return (
     <div
       data-presentation-class={presentationClass?.slug ?? undefined}
-      className={classFontClassNames()}
-      style={classTokensToCssVars() as CSSProperties}
+      className={classFontClassNames(presentationClass)}
+      style={classTokensToCssVars(presentationClass) as CSSProperties}
     >
       <ModeGate>{children}</ModeGate>
     </div>

@@ -1,47 +1,19 @@
 #!/usr/bin/env node
 
-/**
- * Prebuild script. Reads one presentation directory and its class directory,
- * compiles slides + metadata into a single JSON blob consumed by Next.js.
- *
- * Inputs:
- *   presentations/<slug>/
- *     presentation.md             — meta (class, languages, title, authors, ...)
- *     <lang>/slide*.<lang>.md     — slide content (one subdir per declared language;
- *                                    language suffix in filename is kept for
- *                                    unambiguous repo-wide search and to catch
- *                                    mis-filed slides — dir and suffix must agree)
- *     assets/                     — optional media (copied to public/content/<slug>/assets/).
- *                                    Slides reference it as `../assets/foo.png`.
- *
- *   presentation-classes/<class-slug>/
- *     class.md                    — design tokens, chrome, event metadata
- *
- * Output:
- *   src/generated/slides.json     — { presentation, class, languages, defaultLanguage, slides }
- *   public/content/<slug>/...     — copied assets
- *
- * Usage: node scripts/compile.mjs [presentation-dir]
- */
-
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
-const PRESENTATION_DIR = path.resolve(
-  ROOT,
-  process.argv[2] || "presentations/gq128-beauty-presentation"
-);
-const PRESENTATION_SLUG = path.basename(PRESENTATION_DIR);
+const PRESENTATIONS_ROOT = path.resolve(ROOT, "presentations");
 const CLASSES_ROOT = path.resolve(ROOT, "presentation-classes");
 
 const OUT_JSON = path.resolve(ROOT, "src/generated/slides.json");
 const OUT_CLASS_TSX = path.resolve(ROOT, "src/generated/class.tsx");
-const OUT_PUBLIC = path.resolve(ROOT, "public/content", PRESENTATION_SLUG);
+const OUT_COMPONENTS_TSX = path.resolve(ROOT, "src/generated/components.tsx");
+const OUT_PUBLIC_ROOT = path.resolve(ROOT, "public/content");
 const DEFAULT_CLASS_SLUG = "example";
 
-/** Avoid Turbopack reading a truncated file mid-write. */
 function writeFileAtomicSync(filePath, data) {
   const dir = path.dirname(filePath);
   const base = path.basename(filePath);
@@ -56,12 +28,12 @@ function readMatterFile(filePath) {
   return matter(raw);
 }
 
-function readPresentationMeta() {
-  const file = path.join(PRESENTATION_DIR, "presentation.md");
+function readPresentationMeta(presentationDir) {
+  const file = path.join(presentationDir, "presentation.md");
   const parsed = readMatterFile(file);
   if (!parsed) {
-    console.error(`Missing presentation.md in ${PRESENTATION_DIR}`);
-    process.exit(1);
+    console.error(`Missing presentation.md in ${presentationDir}`);
+    return null;
   }
   return {
     data: parsed.data,
@@ -86,38 +58,18 @@ function readClassMeta(classSlug) {
 
 const SLIDE_RE = /^slide(\d+)\.(\w+)\.md$/;
 
-/**
- * Rewrite relative media paths to `/content/<slug>/...`. Slides live in
- * `<slug>/<lang>/slide*.md`, so an author who writes `![](../assets/foo.png)`
- * means "the `assets/` folder at the presentation root". We resolve the
- * path relative to the slide file (`<lang>/<rel>`, then normalize away
- * `..`), then re-anchor on the public content URL. The contract from
- * the manifest — "GitHub renders the same links natively" — stays
- * intact: `../assets/foo.png` resolves the same way on GitHub.
- */
-function rewriteMediaPaths(body, lang) {
+function rewriteMediaPaths(body, lang, presentationSlug) {
   return body.replace(
     /!\[([^\]]*)\]\((?!https?:\/\/|\/)([^)]+)\)/g,
     (_m, alt, rel) => {
       const fromPresentationRoot = path.posix.normalize(
         path.posix.join(lang, rel),
       );
-      return `![${alt}](/content/${PRESENTATION_SLUG}/${fromPresentationRoot})`;
+      return `![${alt}](/content/${presentationSlug}/${fromPresentationRoot})`;
     },
   );
 }
 
-/**
- * Split slide body on the backstage marker comment: a single line containing
- * just `<!-- backstage -->`. Canonical contract: the first half is the
- * slide content (what the audience sees), the second — backstage materials
- * for self-study. No marker → single-tab slide, `backstage` is `undefined`.
- *
- * We use an HTML comment rather than a thematic break (`---`) so authors
- * keep `---` free for ordinary section dividers inside either tab. The
- * marker is invisible in any markdown renderer (GitHub included), which
- * keeps the file readable as a plain document.
- */
 const BACKSTAGE_MARKER_RE = /^<!--\s*backstage\s*-->\s*$/m;
 
 function splitBackstage(body) {
@@ -129,11 +81,11 @@ function splitBackstage(body) {
   return { content, backstage };
 }
 
-function collectSlides(languages) {
+function collectSlides(presentationDir, presentationSlug, languages) {
   const result = Object.fromEntries(languages.map((l) => [l, []]));
 
   for (const lang of languages) {
-    const langDir = path.join(PRESENTATION_DIR, lang);
+    const langDir = path.join(presentationDir, lang);
     if (!fs.existsSync(langDir) || !fs.statSync(langDir).isDirectory()) {
       console.warn(`  ⚠ missing language directory: ${lang}/ — skipping`);
       continue;
@@ -157,10 +109,10 @@ function collectSlides(languages) {
       const { data, content } = matter(raw);
 
       const parts = splitBackstage(content);
-      const slideContent = rewriteMediaPaths(parts.content.trim(), lang);
+      const slideContent = rewriteMediaPaths(parts.content.trim(), lang, presentationSlug);
       const slideBackstage =
         parts.backstage !== undefined
-          ? rewriteMediaPaths(parts.backstage.trim(), lang)
+          ? rewriteMediaPaths(parts.backstage.trim(), lang, presentationSlug)
           : undefined;
 
       result[lang].push({
@@ -169,7 +121,7 @@ function collectSlides(languages) {
         subtitle: data.subtitle || undefined,
         layout: data.layout || "content",
         section: data.section || undefined,
-        qr: data.qr !== false, // default true; author can opt-out via `qr: false`
+        qr: data.qr !== false,
         content: slideContent,
         backstage:
           slideBackstage && slideBackstage.length > 0 ? slideBackstage : undefined,
@@ -187,135 +139,202 @@ function collectSlides(languages) {
   return result;
 }
 
-/**
- * Copy a content subdirectory (images/ or assets/) into public/content/<slug>/.
- * The directory name is preserved, so relative MD links to `assets/foo.png`
- * keep resolving after rewrite to `/content/<slug>/assets/foo.png`.
- */
-function copyMediaDir(name) {
-  const srcDir = path.join(PRESENTATION_DIR, name);
+function copyMediaDir(presentationDir, presentationSlug, name) {
+  const srcDir = path.join(presentationDir, name);
   if (!fs.existsSync(srcDir) || !fs.statSync(srcDir).isDirectory()) return false;
 
-  const destDir = path.join(OUT_PUBLIC, name);
+  const destDir = path.join(OUT_PUBLIC_ROOT, presentationSlug, name);
   fs.cpSync(srcDir, destDir, { recursive: true });
-  console.log(`  Copied ${name}/ → public/content/${PRESENTATION_SLUG}/${name}/`);
+  console.log(`  Copied ${name}/ → public/content/${presentationSlug}/${name}/`);
   return true;
 }
 
-function copyAssets() {
-  if (!copyMediaDir("assets")) {
+function copyAssets(presentationDir, presentationSlug) {
+  if (!copyMediaDir(presentationDir, presentationSlug, "assets")) {
     console.log("  No assets/ directory; skipping copy.");
   }
 }
 
 function main() {
-  console.log(`Compiling presentation: ${PRESENTATION_SLUG}`);
+  const presentations = {};
+  const usedClasses = new Set();
+  const presentationComponents = [];
+  
+  const presentationDirs = fs.readdirSync(PRESENTATIONS_ROOT).filter(d => {
+    return fs.statSync(path.join(PRESENTATIONS_ROOT, d)).isDirectory() && !d.startsWith('.');
+  });
 
-  const presentation = readPresentationMeta();
-  const rawLangs = presentation.data.languages;
-  if (!Array.isArray(rawLangs) || rawLangs.length === 0) {
-    console.error(
-      "presentation meta is missing a non-empty `languages` list (frontmatter or .languages)"
-    );
-    process.exit(1);
+  for (const presentationSlug of presentationDirs) {
+    console.log(`Compiling presentation: ${presentationSlug}`);
+    const presentationDir = path.join(PRESENTATIONS_ROOT, presentationSlug);
+    
+    const presentation = readPresentationMeta(presentationDir);
+    if (!presentation) continue;
+
+    const rawLangs = presentation.data.languages;
+    if (!Array.isArray(rawLangs) || rawLangs.length === 0) {
+      console.error(
+        `  ⚠ presentation meta is missing a non-empty \`languages\` list. Skipping.`
+      );
+      continue;
+    }
+    const languages = rawLangs.map(String);
+    const defaultLanguage = languages[0];
+
+    console.log(`  Languages:   ${languages.join(", ")} (default: ${defaultLanguage})`);
+
+    const classSlug = presentation.data.class;
+    const cls = readClassMeta(classSlug);
+    if (cls) {
+      console.log(`  Class:       ${cls.slug}`);
+      usedClasses.add(cls.slug);
+    } else if (classSlug) {
+      console.log(`  Class:       ${classSlug} (meta not loaded)`);
+      usedClasses.add(classSlug);
+    } else {
+      console.log("  Class:       <none declared>");
+    }
+
+    const slides = collectSlides(presentationDir, presentationSlug, languages);
+    for (const lang of languages) {
+      console.log(`    ${lang}: ${slides[lang].length} slide(s)`);
+    }
+
+    presentations[presentationSlug] = {
+      presentation: {
+        slug: presentationSlug,
+        title: presentation.data.title ?? null,
+        subtitle: presentation.data.subtitle ?? null,
+        shortTitle: presentation.data.shortTitle ?? null,
+        authors: presentation.data.authors ?? [],
+        class: classSlug ?? null,
+        description: presentation.description,
+        meta: presentation.data,
+      },
+      class: cls
+        ? {
+            slug: cls.slug,
+            name: cls.data.name ?? cls.slug,
+            event: cls.data.event ?? null,
+            colors: cls.data.colors ?? null,
+            fonts: cls.data.fonts ?? null,
+            typography: cls.data.typography ?? null,
+            chrome: cls.data.chrome ?? null,
+            description: cls.description,
+            meta: cls.data,
+          }
+        : null,
+      languages,
+      defaultLanguage,
+      slides,
+    };
+
+    copyAssets(presentationDir, presentationSlug);
+
+    // Check if presentation has components
+    const componentsPath = path.join(presentationDir, "components", "index.tsx");
+    if (fs.existsSync(componentsPath)) {
+      presentationComponents.push(presentationSlug);
+    }
   }
-  const languages = rawLangs.map(String);
-  const defaultLanguage = languages[0];
-
-  console.log(`  Languages:   ${languages.join(", ")} (default: ${defaultLanguage})`);
-
-  const classSlug = presentation.data.class;
-  const cls = readClassMeta(classSlug);
-  if (cls) {
-    console.log(`  Class:       ${cls.slug}`);
-  } else if (classSlug) {
-    console.log(`  Class:       ${classSlug} (meta not loaded)`);
-  } else {
-    console.log("  Class:       <none declared>");
-  }
-
-  const slides = collectSlides(languages);
-  for (const lang of languages) {
-    console.log(`    ${lang}: ${slides[lang].length} slide(s)`);
-  }
-
-  const output = {
-    presentation: {
-      slug: PRESENTATION_SLUG,
-      title: presentation.data.title ?? null,
-      subtitle: presentation.data.subtitle ?? null,
-      shortTitle: presentation.data.shortTitle ?? null,
-      authors: presentation.data.authors ?? [],
-      class: classSlug ?? null,
-      description: presentation.description,
-      // Raw frontmatter kept for forward-compat; downstream code can pick fields freely.
-      meta: presentation.data,
-    },
-    class: cls
-      ? {
-          slug: cls.slug,
-          name: cls.data.name ?? cls.slug,
-          event: cls.data.event ?? null,
-          colors: cls.data.colors ?? null,
-          fonts: cls.data.fonts ?? null,
-          typography: cls.data.typography ?? null,
-          chrome: cls.data.chrome ?? null,
-          description: cls.description,
-          meta: cls.data,
-        }
-      : null,
-    languages,
-    defaultLanguage,
-    slides,
-  };
 
   fs.mkdirSync(path.dirname(OUT_JSON), { recursive: true });
-  writeFileAtomicSync(OUT_JSON, JSON.stringify(output, null, 2));
-  console.log(`  Output → src/generated/slides.json`);
+  writeFileAtomicSync(OUT_JSON, JSON.stringify(presentations, null, 2));
+  console.log(`\nOutput → src/generated/slides.json`);
 
-  writeClassRegistry(classSlug);
-  copyAssets();
+  writeClassRegistry(Array.from(usedClasses));
+  writeComponentsRegistry(presentationComponents);
   console.log("Done.");
 }
 
-/**
- * Emit `src/generated/class.tsx` that re-exports the active class module.
- * Falls back to the `example` class if the declared one is missing an
- * index.tsx, so the build never hard-fails on a misnamed class.
- */
-function writeClassRegistry(declaredSlug) {
-  const candidate = declaredSlug
-    ? path.join(CLASSES_ROOT, declaredSlug, "index.tsx")
-    : null;
-  const resolvedSlug =
-    candidate && fs.existsSync(candidate) ? declaredSlug : DEFAULT_CLASS_SLUG;
+function writeClassRegistry(declaredSlugs) {
+  const imports = [];
+  const exports = [];
+  
+  for (const declaredSlug of declaredSlugs) {
+    const candidate = declaredSlug
+      ? path.join(CLASSES_ROOT, declaredSlug, "index.tsx")
+      : null;
+    const resolvedSlug =
+      candidate && fs.existsSync(candidate) ? declaredSlug : DEFAULT_CLASS_SLUG;
 
-  if (resolvedSlug !== declaredSlug) {
-    console.warn(
-      `  ⚠ class '${declaredSlug ?? "<none>"}' has no index.tsx; using '${resolvedSlug}' as fallback`
-    );
+    if (resolvedSlug !== declaredSlug) {
+      console.warn(
+        `  ⚠ class '${declaredSlug ?? "<none>"}' has no index.tsx; using '${resolvedSlug}' as fallback`
+      );
+    }
+
+    const relativeFromGenerated = path
+      .relative(
+        path.dirname(OUT_CLASS_TSX),
+        path.join(CLASSES_ROOT, resolvedSlug, "index")
+      )
+      .replace(/\\/g, "/");
+
+    const importPath = relativeFromGenerated.startsWith(".")
+      ? relativeFromGenerated
+      : `./${relativeFromGenerated}`;
+
+    const varName = `class_${resolvedSlug.replace(/[^a-zA-Z0-9]/g, '_')}`;
+    imports.push(`import ${varName} from "${importPath}";`);
+    exports.push(`  "${declaredSlug}": ${varName},`);
   }
 
-  const relativeFromGenerated = path
-    .relative(
-      path.dirname(OUT_CLASS_TSX),
-      path.join(CLASSES_ROOT, resolvedSlug, "index")
-    )
-    .replace(/\\/g, "/");
-
-  const importPath = relativeFromGenerated.startsWith(".")
-    ? relativeFromGenerated
-    : `./${relativeFromGenerated}`;
-
   const contents = `// AUTOGENERATED by scripts/compile.mjs — do not edit.
-// Active presentation class: ${resolvedSlug}
-import module_ from "${importPath}";
-export default module_;
+${imports.join('\n')}
+
+const classes: Record<string, any> = {
+${exports.join('\n')}
+};
+
+export default function getClassModule(slug: string | null) {
+  if (!slug) return null;
+  return classes[slug] || null;
+}
 `;
 
   fs.mkdirSync(path.dirname(OUT_CLASS_TSX), { recursive: true });
   writeFileAtomicSync(OUT_CLASS_TSX, contents);
-  console.log(`  Output → src/generated/class.tsx (→ ${resolvedSlug})`);
+  console.log(`Output → src/generated/class.tsx`);
+}
+
+function writeComponentsRegistry(presentationSlugs) {
+  const imports = [];
+  const exports = [];
+  
+  for (const slug of presentationSlugs) {
+    const relativeFromGenerated = path
+      .relative(
+        path.dirname(OUT_COMPONENTS_TSX),
+        path.join(PRESENTATIONS_ROOT, slug, "components", "index")
+      )
+      .replace(/\\/g, "/");
+
+    const importPath = relativeFromGenerated.startsWith(".")
+      ? relativeFromGenerated
+      : `./${relativeFromGenerated}`;
+
+    const varName = `comp_${slug.replace(/[^a-zA-Z0-9]/g, '_')}`;
+    imports.push(`import { components as ${varName} } from "${importPath}";`);
+    exports.push(`  "${slug}": ${varName},`);
+  }
+
+  const contents = `// AUTOGENERATED by scripts/compile.mjs — do not edit.
+${imports.join('\n')}
+
+const presentationComponents: Record<string, Record<string, any>> = {
+${exports.join('\n')}
+};
+
+export function getPresentationComponents(slug: string | null) {
+  if (!slug) return {};
+  return presentationComponents[slug] || {};
+}
+`;
+
+  fs.mkdirSync(path.dirname(OUT_COMPONENTS_TSX), { recursive: true });
+  writeFileAtomicSync(OUT_COMPONENTS_TSX, contents);
+  console.log(`Output → src/generated/components.tsx`);
 }
 
 main();
