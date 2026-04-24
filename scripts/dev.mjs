@@ -139,29 +139,45 @@ function scheduleCompile() {
   }, 300);
 }
 
-let watcher = null;
-if (fs.existsSync(CONTENT_DIR)) {
-  watcher = fs.watch(CONTENT_DIR, { recursive: true }, (_event, name) => {
+const watchers = [];
+function watchDir(dir, matcher, label) {
+  if (!fs.existsSync(dir)) {
+    console.warn(`[dev] ${label} missing, no watch:`, dir);
+    return;
+  }
+  const w = fs.watch(dir, { recursive: true }, (_event, name) => {
     if (!name) return;
     const n = String(name).replace(/\\/g, "/").toLowerCase();
-    if (
-      n.endsWith(".md") ||
-      n.startsWith("assets/") ||
-      n.startsWith("components/")
-    ) {
-      scheduleCompile();
-    }
+    if (matcher(n)) scheduleCompile();
   });
-  console.log("[dev] Watching", CONTENT_DIR, "for .md / assets / components changes");
-} else {
-  console.warn("[dev] Content dir missing, no watch:", CONTENT_DIR);
+  watchers.push(w);
+  console.log(`[dev] Watching ${label}:`, dir);
 }
+
+// Presentation content: markdown, assets, per-presentation components.
+watchDir(
+  CONTENT_DIR,
+  (n) =>
+    n.endsWith(".md") ||
+    n.startsWith("assets/") ||
+    n.startsWith("components/"),
+  "presentation",
+);
+
+// Classes: class.md tokens flow into slides.json, so we must recompile
+// on any .md change. .tsx files are picked up by Next's own HMR — we
+// don't touch them. assets/ also re-copies on change.
+watchDir(
+  path.join(ROOT, "presentation-classes"),
+  (n) => n.endsWith(".md") || n.includes("/assets/"),
+  "presentation-classes",
+);
 
 // --- shutdown --------------------------------------------------------------
 
 function shutdown(signal) {
   shuttingDown = true;
-  if (watcher) watcher.close();
+  for (const w of watchers) w.close();
   clearTimeout(debounce);
   clearTimeout(restartTimer);
   if (next) next.kill(signal);
