@@ -29,7 +29,14 @@ export function SlideQRCode({
         </div>
       </div>
       {caption ? (
-        <span className="max-w-[260px] text-center text-xs text-zinc-500 dark:text-zinc-400">
+        <span
+          className="text-balance text-center font-semibold tracking-wider text-zinc-700 dark:text-zinc-300"
+          style={{
+            maxWidth: size,
+            // Scale caption with QR size: ~25px at size 320, ~14px at size 180.
+            fontSize: `clamp(14px, ${Math.round(size * 0.08)}px, 28px)`,
+          }}
+        >
           {caption}
         </span>
       ) : (

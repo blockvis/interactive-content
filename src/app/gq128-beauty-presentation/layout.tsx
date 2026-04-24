@@ -33,6 +33,7 @@ function classTokensToCssVars(): StyleVars {
       dark?: string;
       light?: string;
     };
+    sidebar?: { width?: string; background?: string };
   } | null;
   if (chrome?.nav?.height) vars["--class-nav-height"] = chrome.nav.height;
   if (chrome?.brandStripe) {
@@ -41,6 +42,11 @@ function classTokensToCssVars(): StyleVars {
     if (bs.fontSize) vars["--class-stripe-font-size"] = bs.fontSize;
     if (bs.dark) vars["--class-stripe-dark"] = bs.dark;
     if (bs.light) vars["--class-stripe-light"] = bs.light;
+  }
+  if (chrome?.sidebar) {
+    const sb = chrome.sidebar;
+    if (sb.width) vars["--class-sidebar-width"] = sb.width;
+    if (sb.background) vars["--class-sidebar-bg"] = sb.background;
   }
 
   const heading = resolveFont(

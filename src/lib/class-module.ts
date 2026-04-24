@@ -21,8 +21,26 @@ export interface PlatformSlots {
   slideNumber: number;
   total: number;
 
-  /** Sticky footer navigation (prev / current / next). Mandatory by platform. */
+  /**
+   * Horizontal prev / # / next nav with text labels. Intended for the
+   * mobile sticky footer and as a default for classes that don't hoist
+   * nav into chrome. Mandatory: every layout must render at least one
+   * nav slot.
+   */
   nav: ReactNode;
+
+  /**
+   * Triangle-icon pills in a single row with a centred number input
+   * (user can type a slide number to jump). Intended for side columns
+   * in presentation mode on content slides.
+   */
+  navPills: ReactNode;
+
+  /**
+   * A single large Next pill. Intended for title slides under the big QR.
+   * Null when there is no next slide.
+   */
+  navNextOnly: ReactNode;
 
   /** Language switcher. Null if the class disabled it via chrome.nav. */
   languageSwitcher: ReactNode;

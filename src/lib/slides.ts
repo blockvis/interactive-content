@@ -17,6 +17,9 @@ export interface Author {
   name: string;
   affiliation?: string;
   role?: string;
+  /** Optional contact lines, rendered by class layouts in side panels. */
+  email?: string;
+  url?: string;
 }
 
 export interface PresentationMeta {

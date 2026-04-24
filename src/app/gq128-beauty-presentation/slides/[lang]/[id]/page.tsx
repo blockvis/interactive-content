@@ -10,6 +10,7 @@ import {
   totalSlides,
 } from "@/lib/slides";
 import type { LayoutName, PlatformSlots } from "@/lib/class-module";
+import { resolveI18n, type Localized } from "@/lib/i18n";
 import classModule from "@/generated/class";
 import defaultClassModule from "@default-class/index";
 import { SlideNav } from "@/components/slide-nav";
@@ -24,7 +25,7 @@ interface NavTokens {
 }
 interface QrTokens {
   size?: number;
-  caption?: string | null;
+  caption?: Localized;
 }
 interface ClassChrome {
   nav?: NavTokens;
@@ -97,11 +98,13 @@ export default async function SlidePage({
   const qrPerSlideActive = Boolean(chrome.qrPerSlide);
   const showCornerQr = !isTitle && slide.qr && qrPerSlideActive;
 
+  const fallbackLang = languages[0];
+
   const titleQr = isTitle ? (
     <SlideQRCode
       path={`/${SLUG}/`}
       size={chrome.qrTitle?.size ?? 320}
-      caption={chrome.qrTitle?.caption}
+      caption={resolveI18n(chrome.qrTitle?.caption, lang, fallbackLang)}
     />
   ) : null;
 
@@ -109,7 +112,7 @@ export default async function SlidePage({
     <SlideQRCode
       path={slidePath}
       size={chrome.qrPerSlide?.size ?? 128}
-      caption={chrome.qrPerSlide?.caption}
+      caption={resolveI18n(chrome.qrPerSlide?.caption, lang, fallbackLang)}
     />
   ) : null;
 
@@ -120,6 +123,27 @@ export default async function SlidePage({
       lang={lang}
       routePrefix={routePrefix}
       showSlideNumber={showSlideNumber}
+    />
+  );
+
+  const navPills = (
+    <SlideNav
+      currentSlide={slideId}
+      totalSlides={total}
+      lang={lang}
+      routePrefix={routePrefix}
+      showSlideNumber={showSlideNumber}
+      orientation="pills"
+    />
+  );
+
+  const navNextOnly = (
+    <SlideNav
+      currentSlide={slideId}
+      totalSlides={total}
+      lang={lang}
+      routePrefix={routePrefix}
+      orientation="next-only"
     />
   );
 
@@ -136,6 +160,8 @@ export default async function SlidePage({
     slideNumber: slideId,
     total,
     nav,
+    navPills,
+    navNextOnly,
     languageSwitcher,
     titleQr,
     cornerQr,

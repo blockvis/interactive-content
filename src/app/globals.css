@@ -37,20 +37,41 @@ body {
 }
 
 /* Presentation / Reader modes.
-   QR chrome is visible by default on wide viewports (presentation mode)
-   and hidden on narrow viewports (reader mode). The `?mode=` query param,
-   captured by <ModeGate/>, can force either state regardless of width. */
-[data-qr] {
+   `data-presentation-only` / `data-qr` are visible only on wide viewports
+   (or when `?mode=presentation` is set). `data-reader-only` is their
+   opposite: visible on narrow viewports (or `?mode=reader`) and hidden
+   on wide ones. The `?mode=` query param is captured by <ModeGate/>. */
+[data-qr],
+[data-presentation-only] {
   display: none;
+}
+[data-reader-only] {
+  display: revert;
 }
 @media (min-width: 768px) {
   [data-qr] {
     display: block;
   }
+  [data-presentation-only] {
+    display: revert;
+  }
+  [data-reader-only] {
+    display: none;
+  }
 }
 [data-mode-override="presentation"] [data-qr] {
   display: block;
 }
-[data-mode-override="reader"] [data-qr] {
+[data-mode-override="presentation"] [data-presentation-only] {
+  display: revert;
+}
+[data-mode-override="presentation"] [data-reader-only] {
   display: none;
+}
+[data-mode-override="reader"] [data-qr],
+[data-mode-override="reader"] [data-presentation-only] {
+  display: none;
+}
+[data-mode-override="reader"] [data-reader-only] {
+  display: revert;
 }
