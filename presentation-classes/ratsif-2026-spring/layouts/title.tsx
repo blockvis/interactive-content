@@ -8,7 +8,11 @@ import {
 
 /**
  * Title layout for RaTSiF-2026 Spring.
+ *
  * Per pptx master 1: bottom brand stripe only (no top stripe).
+ * Slide nav sits inside the right half of the stripe, pinned to its
+ * outer edge. On mobile the stripe hides and a reader-only nav
+ * appears at the bottom of the main column.
  */
 export default function RatsifTitleLayout({
   slide,
@@ -17,14 +21,9 @@ export default function RatsifTitleLayout({
   platform,
 }: LayoutProps) {
   const authors = presentation?.authors ?? [];
-  const slideNumber = (
-    <span className="text-[1.25em] font-extrabold tracking-wider">
-      {platform.slideNumber} / {platform.total}
-    </span>
-  );
 
   return (
-    <div className="flex h-dvh flex-col overflow-hidden">
+    <div className="flex h-dvh flex-col">
       <header className="mx-auto flex w-full max-w-5xl shrink-0 items-center justify-between px-6 pt-6 sm:pt-10">
         <div className="text-sm font-medium text-zinc-400 dark:text-zinc-500">
           {classMeta?.name ?? presentation?.title ?? ""}
@@ -74,25 +73,20 @@ export default function RatsifTitleLayout({
               <div>{platform.languageSwitcher}</div>
             )}
             {platform.titleQr}
-            <div className="flex justify-center pt-2">
-              {platform.navNextOnly}
-            </div>
           </div>
         )}
       </main>
 
-      <div data-reader-only className="shrink-0">
-        <footer
-          className="mx-auto flex w-full max-w-5xl items-center justify-center border-t border-zinc-100 px-6 pb-6 pt-4 dark:border-zinc-800"
-          style={{ minHeight: "var(--class-nav-height, 56px)" }}
-        >
-          {platform.nav}
-        </footer>
+      <div
+        data-reader-only
+        className="mx-auto flex w-full max-w-5xl shrink-0 items-center justify-center border-t border-zinc-100 px-6 pb-6 pt-4 text-base text-zinc-600 dark:border-zinc-800 dark:text-zinc-300"
+      >
+        {platform.nav}
       </div>
 
       <BrandStripe
         left={[eventDate(classMeta), authorsLabel(presentation)]}
-        right={[eventLabel(classMeta), slideNumber]}
+        right={[eventLabel(classMeta), platform.nav]}
       />
     </div>
   );

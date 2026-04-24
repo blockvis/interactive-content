@@ -87,7 +87,6 @@ export default async function SlidePage({
   const slidePath = `${routePrefix}/slides/${lang}/${slide.id}`;
 
   const chrome = getChrome();
-  const showSlideNumber = chrome.nav?.showSlideNumber !== false;
   const showLanguageSwitcher = chrome.nav?.showLanguageSwitcher !== false;
 
   const isTitle = slide.layout === "title";
@@ -116,34 +115,17 @@ export default async function SlidePage({
     />
   ) : null;
 
+  const slidesList = getSlidesForLang(lang).map((s) => ({
+    id: s.id,
+    title: s.title,
+  }));
+
   const nav = (
     <SlideNav
       currentSlide={slideId}
-      totalSlides={total}
+      slides={slidesList}
       lang={lang}
       routePrefix={routePrefix}
-      showSlideNumber={showSlideNumber}
-    />
-  );
-
-  const navPills = (
-    <SlideNav
-      currentSlide={slideId}
-      totalSlides={total}
-      lang={lang}
-      routePrefix={routePrefix}
-      showSlideNumber={showSlideNumber}
-      orientation="pills"
-    />
-  );
-
-  const navNextOnly = (
-    <SlideNav
-      currentSlide={slideId}
-      totalSlides={total}
-      lang={lang}
-      routePrefix={routePrefix}
-      orientation="next-only"
     />
   );
 
@@ -160,8 +142,6 @@ export default async function SlidePage({
     slideNumber: slideId,
     total,
     nav,
-    navPills,
-    navNextOnly,
     languageSwitcher,
     titleQr,
     cornerQr,

@@ -14,14 +14,17 @@ import {
  *
  * Structure (presentation mode):
  *
- *   ┌ top stripe ─────────────────────────┐
- *   │ main column (header/body/footer nav)│ side rail (QR + contacts)
- *   └ bottom stripe ──────────────────────┘
+ *   ┌ top stripe ──────────────────────────────────────┐
+ *   │ header (class name · lang on mobile)             │
+ *   │ main                                             │ side rail
+ *   │                                                  │ (QR + contacts)
+ *   └ bottom stripe · ◀ 2/3 ▶ pinned right ────────────┘
  *
- * On mobile / reader mode the stripes and the side rail hide via
- * `data-presentation-only`; only header, body and sticky nav remain.
- * Per pptx master 2: top stripe carries section label (left) and
- * short paper title (right); bottom stripe — date/authors/event/slide #.
+ * The slide nav sits inside the right half of the bottom brand stripe,
+ * pinned to its outer edge — so it inherits the stripe's white-on-blue
+ * style and participates visually as part of the brand band. On mobile
+ * the stripes hide (`data-presentation-only`) and a fallback sticky nav
+ * appears at the bottom of the content column (`data-reader-only`).
  */
 export default function RatsifContentLayout({
   slide,
@@ -29,14 +32,8 @@ export default function RatsifContentLayout({
   classMeta,
   platform,
 }: LayoutProps) {
-  const slideNumber = (
-    <span className="text-[1.25em] font-extrabold tracking-wider">
-      {platform.slideNumber} / {platform.total}
-    </span>
-  );
-
   return (
-    <div className="flex h-dvh flex-col overflow-hidden">
+    <div className="flex h-dvh flex-col">
       <BrandStripe
         left={[slide.section ?? ""]}
         right={[shortPaperTitle(presentation)]}
@@ -65,27 +62,24 @@ export default function RatsifContentLayout({
             </div>
           </main>
 
-          <div data-reader-only className="shrink-0">
-            <footer
-              className="mx-auto flex w-full max-w-3xl items-center justify-center border-t border-zinc-100 pt-4 dark:border-zinc-800"
-              style={{ minHeight: "var(--class-nav-height, 56px)" }}
-            >
-              {platform.nav}
-            </footer>
+          <div
+            data-reader-only
+            className="mx-auto flex w-full max-w-3xl shrink-0 items-center justify-center border-t border-zinc-100 pt-4 text-base text-zinc-600 dark:border-zinc-800 dark:text-zinc-300"
+          >
+            {platform.nav}
           </div>
         </div>
 
         <SideRail
           languageSwitcher={platform.languageSwitcher}
           qr={platform.cornerQr}
-          nav={platform.navPills}
           authors={presentation?.authors ?? []}
         />
       </div>
 
       <BrandStripe
         left={[eventDate(classMeta), authorsLabel(presentation)]}
-        right={[eventLabel(classMeta), slideNumber]}
+        right={[eventLabel(classMeta), platform.nav]}
       />
     </div>
   );

@@ -1,50 +1,63 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
-export type SlideNavOrientation = "horizontal" | "pills" | "next-only";
-
 /**
- * Platform-provided navigation slot.
+ * Unified slide navigation.
  *
- * - `horizontal` (default): pill row with Prev / slide # / Next and text
- *   labels. Disabled state is rendered as a ghost button. Used for the
- *   mobile sticky footer and as a default for classes that don't customize.
- * - `pills`: triangle-icon pills in a single row with a centred number
- *   input — user can type a slide number to jump. Disabled buttons are
- *   hidden. Used by classes that hoist nav into a side column.
- * - `next-only`: a single large Next pill with a triangle icon. Used
- *   under the title QR where Prev does not apply.
+ * Visual:    ◀  2 / 3  ▶
  *
- * All variants wire up ArrowLeft / ArrowRight / Space keybindings.
+ * Click on the "2 / 3" badge to enter edit mode: the number becomes an
+ * input (type a new slide number, Enter to jump) and a dropdown pops up
+ * *above* it listing every slide with its title so the user can jump
+ * by clicking.
+ *
+ * Styling is intentionally inherited from the container — triangle icons
+ * use `currentColor` and are sized in `em`, the number is `font-inherit`.
+ * This lets the same component look right in a dark brand stripe, a
+ * sticky footer on white, a sidebar, etc., without variant props.
+ *
+ * Keyboard: ArrowLeft / ArrowRight / Space navigate prev/next. Bindings
+ * are suppressed while an input is focused so users can type a number.
  */
 export function SlideNav({
   currentSlide,
-  totalSlides,
+  slides,
   lang,
   routePrefix = "",
-  showSlideNumber = true,
-  orientation = "horizontal",
 }: {
   currentSlide: number;
-  totalSlides: number;
+  slides: { id: number; title: string | null }[];
   lang: string;
   routePrefix?: string;
-  showSlideNumber?: boolean;
-  orientation?: SlideNavOrientation;
 }) {
   const router = useRouter();
+  const total = slides.length;
   const hasPrev = currentSlide > 1;
-  const hasNext = currentSlide < totalSlides;
+  const hasNext = currentSlide < total;
   const hrefFor = (n: number) => `${routePrefix}/slides/${lang}/${n}`;
   const prevHref = hrefFor(currentSlide - 1);
   const nextHref = hrefFor(currentSlide + 1);
 
+  const [editing, setEditing] = useState(false);
+  const [value, setValue] = useState(String(currentSlide));
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!editing) return;
+    function onPointerDown(e: MouseEvent) {
+      if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
+        setEditing(false);
+      }
+    }
+    document.addEventListener("mousedown", onPointerDown);
+    return () => document.removeEventListener("mousedown", onPointerDown);
+  }, [editing]);
+
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
-      // Ignore keybindings while the number input is focused — user is typing.
       const target = e.target as HTMLElement | null;
       if (target?.tagName === "INPUT") return;
       if ((e.key === "ArrowRight" || e.key === " ") && hasNext) {
@@ -58,172 +71,129 @@ export function SlideNav({
     return () => window.removeEventListener("keydown", handleKey);
   }, [hasNext, hasPrev, nextHref, prevHref, router]);
 
-  if (orientation === "next-only") {
-    if (!hasNext) return null;
-    return (
-      <nav aria-label="Slide navigation">
-        <Link
-          href={nextHref}
-          aria-label="Next slide"
-          className="flex h-20 w-20 items-center justify-center rounded-full transition-opacity hover:opacity-90"
-          style={{
-            backgroundColor: "var(--class-muted, #e4e4e7)",
-            color: "var(--class-accent, #0f172a)",
-          }}
-        >
-          <TriangleIcon direction="right" size={32} />
-        </Link>
-      </nav>
-    );
+  function commit() {
+    const n = Number(value);
+    if (Number.isFinite(n)) {
+      const clamped = Math.min(Math.max(Math.round(n), 1), total);
+      if (clamped !== currentSlide) {
+        router.push(hrefFor(clamped));
+      }
+    }
+    setEditing(false);
   }
 
-  if (orientation === "pills") {
-    return (
-      <nav
-        className="flex items-center gap-2"
-        aria-label="Slide navigation"
-      >
-        {hasPrev ? (
-          <Link
-            href={prevHref}
-            aria-label="Previous slide"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-zinc-200 text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
-          >
-            <TriangleIcon direction="left" />
-          </Link>
-        ) : (
-          <span className="h-11 w-11" aria-hidden />
-        )}
-
-        <SlideNumberInput
-          currentSlide={currentSlide}
-          totalSlides={totalSlides}
-          onJump={(n) => router.push(hrefFor(n))}
-        />
-
-        {hasNext ? (
-          <Link
-            href={nextHref}
-            aria-label="Next slide"
-            className="flex h-11 w-11 items-center justify-center rounded-full transition-opacity hover:opacity-90"
-            style={{
-              backgroundColor: "var(--class-primary, #0f172a)",
-              color: "var(--class-background, white)",
-            }}
-          >
-            <TriangleIcon direction="right" />
-          </Link>
-        ) : (
-          <span className="h-11 w-11" aria-hidden />
-        )}
-      </nav>
-    );
+  function openEdit() {
+    setValue(String(currentSlide));
+    setEditing(true);
   }
 
   return (
-    <nav className="flex items-center gap-4" aria-label="Slide navigation">
+    <nav className="inline-flex items-center gap-[0.9em]" aria-label="Slide navigation">
       {hasPrev ? (
         <Link
           href={prevHref}
-          className="flex h-10 items-center gap-2 rounded-full border border-zinc-200 px-5 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+          aria-label="Previous slide"
+          className="inline-flex cursor-pointer opacity-80 transition-opacity hover:opacity-100"
         >
-          <span aria-hidden>←</span> Prev
+          <TriangleIcon direction="left" />
         </Link>
       ) : (
-        <span className="flex h-10 items-center gap-2 rounded-full border border-zinc-100 px-5 text-sm font-medium text-zinc-300 dark:border-zinc-800 dark:text-zinc-600">
-          <span aria-hidden>←</span> Prev
+        <span aria-hidden className="inline-flex opacity-20">
+          <TriangleIcon direction="left" />
         </span>
       )}
 
-      {showSlideNumber && (
-        <span className="text-sm tabular-nums text-zinc-400 dark:text-zinc-500">
-          {currentSlide}/{totalSlides}
-        </span>
-      )}
+      <div ref={panelRef} className="relative">
+        {!editing ? (
+          <button
+            type="button"
+            onClick={openEdit}
+            aria-label={`Slide ${currentSlide} of ${total} — click to jump`}
+            className="cursor-pointer rounded px-1 font-semibold tabular-nums underline decoration-transparent underline-offset-4 transition-colors hover:decoration-current"
+          >
+            {currentSlide} / {total}
+          </button>
+        ) : (
+          <>
+            <ul
+              aria-label="Jump to slide"
+              className="absolute bottom-full left-1/2 mb-3 max-h-[min(60vh,22rem)] min-w-[16rem] -translate-x-1/2 overflow-y-auto rounded-lg border border-zinc-200 bg-white py-1 text-sm text-zinc-700 shadow-lg dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
+            >
+              {slides.map((s) => {
+                const current = s.id === currentSlide;
+                return (
+                  <li key={s.id}>
+                    <Link
+                      href={hrefFor(s.id)}
+                      onClick={() => setEditing(false)}
+                      aria-current={current ? "true" : undefined}
+                      className={`flex items-baseline gap-3 px-4 py-2 leading-snug transition-colors ${
+                        current
+                          ? "bg-zinc-100 font-semibold dark:bg-zinc-800"
+                          : "hover:bg-zinc-50 dark:hover:bg-zinc-800/40"
+                      }`}
+                    >
+                      <span className="w-5 shrink-0 text-right tabular-nums text-zinc-400 dark:text-zinc-500">
+                        {s.id}
+                      </span>
+                      <span className="truncate">
+                        {s.title ?? `Slide ${s.id}`}
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+            <input
+              type="number"
+              inputMode="numeric"
+              min={1}
+              max={total}
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  commit();
+                } else if (e.key === "Escape") {
+                  setEditing(false);
+                }
+              }}
+              autoFocus
+              aria-label={`Slide number (1–${total})`}
+              className="w-[4ch] rounded border border-zinc-300 bg-white px-1 text-center font-semibold tabular-nums text-zinc-900 outline-none focus:border-zinc-500 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            />
+          </>
+        )}
+      </div>
 
       {hasNext ? (
         <Link
           href={nextHref}
-          className="flex h-10 items-center gap-2 rounded-full px-5 text-sm font-medium transition-opacity hover:opacity-90"
-          style={{
-            backgroundColor: "var(--class-primary, #0f172a)",
-            color: "var(--class-background, white)",
-          }}
+          aria-label="Next slide"
+          className="inline-flex cursor-pointer opacity-80 transition-opacity hover:opacity-100"
         >
-          Next <span aria-hidden>→</span>
+          <TriangleIcon direction="right" />
         </Link>
       ) : (
-        <span className="flex h-10 items-center gap-2 rounded-full bg-zinc-200 px-5 text-sm font-medium text-zinc-400 dark:bg-zinc-800 dark:text-zinc-600">
-          Next <span aria-hidden>→</span>
+        <span aria-hidden className="inline-flex opacity-20">
+          <TriangleIcon direction="right" />
         </span>
       )}
     </nav>
   );
 }
 
-function SlideNumberInput({
-  currentSlide,
-  totalSlides,
-  onJump,
-}: {
-  currentSlide: number;
-  totalSlides: number;
-  onJump: (n: number) => void;
-}) {
-  const [value, setValue] = useState(String(currentSlide));
-
-  useEffect(() => {
-    setValue(String(currentSlide));
-  }, [currentSlide]);
-
-  function commit() {
-    const n = Number(value);
-    if (!Number.isFinite(n)) {
-      setValue(String(currentSlide));
-      return;
-    }
-    const clamped = Math.min(Math.max(Math.round(n), 1), totalSlides);
-    if (clamped !== currentSlide) onJump(clamped);
-    setValue(String(clamped));
-  }
-
-  return (
-    <input
-      type="number"
-      inputMode="numeric"
-      min={1}
-      max={totalSlides}
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-      onBlur={commit}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") {
-          e.currentTarget.blur();
-        }
-      }}
-      aria-label={`Slide number (1–${totalSlides})`}
-      className="w-12 rounded-md border border-zinc-200 bg-white px-1 py-0.5 text-center text-sm font-semibold tabular-nums text-zinc-900 outline-none focus:border-zinc-400 focus:ring-0 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-    />
-  );
-}
-
-function TriangleIcon({
-  direction,
-  size = 20,
-}: {
-  direction: "left" | "right";
-  size?: number;
-}) {
-  // 24×24 viewBox; filled equilateral triangle centred in the box.
+/** Filled triangle, sized in `em`, coloured via currentColor. */
+function TriangleIcon({ direction }: { direction: "left" | "right" }) {
   const points =
     direction === "right" ? "8,5 19,12 8,19" : "16,5 5,12 16,19";
   return (
     <svg
-      width={size}
-      height={size}
       viewBox="0 0 24 24"
       aria-hidden="true"
       focusable="false"
+      style={{ width: "1.1em", height: "1.1em" }}
     >
       <polygon points={points} fill="currentColor" />
     </svg>

@@ -6,10 +6,12 @@ import type { Author } from "@/lib/slides";
  *
  *   ┌ lang select ┐  ← dropdown pinned to the top
  *   │ QR          │
- *   │ nav pills   │
  *   │             │
  *   │ contacts    │  ← slightly-greyer tech panel, pinned to bottom
  *   └─────────────┘
+ *
+ * Navigation is NOT here — the platform places it once in the sticky
+ * footer and expects it to be visible on all viewports.
  *
  * The outer wrapper is `data-presentation-only` so the rail is hidden
  * on mobile / reader mode; the inner aside always lays out as a flex
@@ -20,12 +22,10 @@ import type { Author } from "@/lib/slides";
 export function SideRail({
   languageSwitcher,
   qr,
-  nav,
   authors,
 }: {
   languageSwitcher: ReactNode;
   qr: ReactNode;
-  nav: ReactNode;
   authors: Author[];
 }) {
   return (
@@ -41,8 +41,6 @@ export function SideRail({
         {languageSwitcher && <div>{languageSwitcher}</div>}
 
         {qr && <div className="flex justify-center">{qr}</div>}
-
-        {nav && <div className="flex justify-center">{nav}</div>}
 
         {authors.length > 0 && (
           <div className="mt-auto space-y-4 text-sm text-zinc-700 dark:text-zinc-300">

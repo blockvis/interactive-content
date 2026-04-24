@@ -23,7 +23,7 @@ export function BrandStripe({
   return (
     <div
       data-presentation-only
-      className="pointer-events-none w-full shrink-0 font-medium text-white"
+      className="w-full shrink-0 font-medium text-white"
       style={{
         height: "var(--class-stripe-height, 0)",
         fontSize: "var(--class-stripe-font-size, 16px)",
@@ -38,6 +38,11 @@ export function BrandStripe({
 }
 
 function StripeHalf({ slots, bg }: { slots: ReactNode[]; bg: string }) {
+  // Slots may contain interactive chrome (nav with a popover dropdown),
+  // so we deliberately do NOT set overflow: hidden / truncate here —
+  // that would clip popovers rising above the stripe. Slots with plain
+  // text should come pre-shortened; we only guard against line breaks
+  // with whitespace-nowrap.
   if (slots.length === 0) {
     return <div className="flex-1" style={{ backgroundColor: bg }} />;
   }
@@ -47,7 +52,7 @@ function StripeHalf({ slots, bg }: { slots: ReactNode[]; bg: string }) {
         className="flex flex-1 items-center justify-center px-6"
         style={{ backgroundColor: bg }}
       >
-        <div className="truncate whitespace-nowrap">{slots[0]}</div>
+        <div className="whitespace-nowrap">{slots[0]}</div>
       </div>
     );
   }
@@ -58,7 +63,7 @@ function StripeHalf({ slots, bg }: { slots: ReactNode[]; bg: string }) {
       style={{ backgroundColor: bg }}
     >
       {slots.map((slot, i) => (
-        <div key={i} className="truncate whitespace-nowrap">
+        <div key={i} className="whitespace-nowrap">
           {slot}
         </div>
       ))}

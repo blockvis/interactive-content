@@ -22,25 +22,14 @@ export interface PlatformSlots {
   total: number;
 
   /**
-   * Horizontal prev / # / next nav with text labels. Intended for the
-   * mobile sticky footer and as a default for classes that don't hoist
-   * nav into chrome. Mandatory: every layout must render at least one
-   * nav slot.
+   * Unified slide navigation: `◀  #/#  ▶`. Inherits font, colour and
+   * size from its container, so the same component looks right in a
+   * sticky footer, a brand stripe, or any other chrome slot. Click on
+   * the number badge opens a dropdown with all slide titles plus an
+   * inline input for direct number entry. Mandatory: every layout
+   * must render it somewhere visible.
    */
   nav: ReactNode;
-
-  /**
-   * Triangle-icon pills in a single row with a centred number input
-   * (user can type a slide number to jump). Intended for side columns
-   * in presentation mode on content slides.
-   */
-  navPills: ReactNode;
-
-  /**
-   * A single large Next pill. Intended for title slides under the big QR.
-   * Null when there is no next slide.
-   */
-  navNextOnly: ReactNode;
 
   /** Language switcher. Null if the class disabled it via chrome.nav. */
   languageSwitcher: ReactNode;
