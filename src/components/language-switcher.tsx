@@ -73,7 +73,8 @@ export function LanguageSwitcher({
 
   return (
     <select
-      value={currentLang}
+      key={currentLang}
+      defaultValue={currentLang}
       onChange={(e) => {
         router.push(`${routePrefix}/slides/${e.target.value}/${currentSlide}`);
       }}
