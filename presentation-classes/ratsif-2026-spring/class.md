@@ -90,21 +90,28 @@ chrome:
     showLanguageSwitcher: true
 
   # Большой QR на титульном слайде — обязателен в presentation mode.
-  # URL: корень презентации.
+  # URL: корень презентации. Caption — универсальная UI-идиома, которую
+  # считывают носители любого языка, поэтому фиксируем по-английски
+  # (см. meta/class-authoring.ru.md → «Локализуемые строки»).
   qrTitle:
     size: 320
     position: right
-    caption: "Откройте презентацию на своём телефоне"
+    caption: "SCAN TO FOLLOW"
 
-  # Маленький QR в углу на каждом слайде (URL — URL текущего слайда).
+  # Маленький QR на каждом non-title слайде (URL — URL текущего слайда).
   # Активируется ТОЛЬКО если класс задал этот блок; иначе углового QR нет.
-  # Пока не включаем — конференция не требует.
-  #
-  # qrPerSlide:
-  #   size: 128
-  #   position: bottom-right
-  #   caption: null
-  #   opacity: 0.9
+  # Живёт в правой колонке (см. sidebar ниже), прибит кверху.
+  qrPerSlide:
+    size: 180
+    caption: "SCAN TO FOLLOW"
+
+  # Правая колонка в content layout-е (presentation mode): над ней —
+  # QR текущего слайда, под ним — техническая панель с контактами автора.
+  # На мобильном (`data-presentation-only`) колонка скрывается.
+  sidebar:
+    enabled: true
+    width: "clamp(240px, 18vw, 320px)"   # респонсив: 240–320px
+    background: "#F4F4F5"                # slightly greyer than page background
 ---
 
 Класс-«порт» фирменного стиля весенней сессии RaTSiF-2026, проводимой

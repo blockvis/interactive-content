@@ -24,15 +24,15 @@ export default function RatsifTitleLayout({
   );
 
   return (
-    <div className="relative flex h-dvh flex-col overflow-hidden px-6 py-10 sm:py-16">
-      <header className="mx-auto flex w-full max-w-5xl shrink-0 items-center justify-between">
+    <div className="flex h-dvh flex-col overflow-hidden">
+      <header className="mx-auto flex w-full max-w-5xl shrink-0 items-center justify-between px-6 pt-6 sm:pt-10">
         <div className="text-sm font-medium text-zinc-400 dark:text-zinc-500">
           {classMeta?.name ?? presentation?.title ?? ""}
         </div>
-        {platform.languageSwitcher}
+        <div data-reader-only>{platform.languageSwitcher}</div>
       </header>
 
-      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center gap-8 overflow-y-auto py-8 sm:flex-row sm:items-center sm:gap-16 sm:overflow-visible">
+      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center gap-8 overflow-y-auto px-6 py-8 sm:flex-row sm:items-center sm:gap-16 sm:overflow-visible">
         <div className="flex flex-1 flex-col gap-6 text-center sm:text-left">
           {slide.subtitle && (
             <p className="text-sm font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
@@ -69,21 +69,28 @@ export default function RatsifTitleLayout({
         </div>
 
         {platform.titleQr && (
-          <div data-qr className="shrink-0">
+          <div data-qr className="flex shrink-0 flex-col items-stretch gap-6">
+            {platform.languageSwitcher && (
+              <div>{platform.languageSwitcher}</div>
+            )}
             {platform.titleQr}
+            <div className="flex justify-center pt-2">
+              {platform.navNextOnly}
+            </div>
           </div>
         )}
       </main>
 
-      <footer
-        className="mx-auto flex w-full max-w-5xl shrink-0 items-center justify-center border-t border-zinc-100 pt-4 sm:border-0 sm:pt-0 dark:border-zinc-800"
-        style={{ minHeight: "var(--class-nav-height, 56px)" }}
-      >
-        {platform.nav}
-      </footer>
+      <div data-reader-only className="shrink-0">
+        <footer
+          className="mx-auto flex w-full max-w-5xl items-center justify-center border-t border-zinc-100 px-6 pb-6 pt-4 dark:border-zinc-800"
+          style={{ minHeight: "var(--class-nav-height, 56px)" }}
+        >
+          {platform.nav}
+        </footer>
+      </div>
 
       <BrandStripe
-        position="bottom"
         left={[eventDate(classMeta), authorsLabel(presentation)]}
         right={[eventLabel(classMeta), slideNumber]}
       />

@@ -1,0 +1,95 @@
+import type { ReactNode } from "react";
+import type { Author } from "@/lib/slides";
+
+/**
+ * Right column used by the content layout in presentation mode.
+ *
+ *   ┌ lang select ┐  ← dropdown pinned to the top
+ *   │ QR          │
+ *   │ nav pills   │
+ *   │             │
+ *   │ contacts    │  ← slightly-greyer tech panel, pinned to bottom
+ *   └─────────────┘
+ *
+ * The outer wrapper is `data-presentation-only` so the rail is hidden
+ * on mobile / reader mode; the inner aside always lays out as a flex
+ * column, independent of the gate's display revert semantics. Width
+ * and background come from --class-sidebar-* CSS vars emitted by
+ * src/app/<slug>/layout.tsx.
+ */
+export function SideRail({
+  languageSwitcher,
+  qr,
+  nav,
+  authors,
+}: {
+  languageSwitcher: ReactNode;
+  qr: ReactNode;
+  nav: ReactNode;
+  authors: Author[];
+}) {
+  return (
+    <div
+      data-presentation-only
+      className="shrink-0"
+      style={{ width: "var(--class-sidebar-width, 280px)" }}
+    >
+      <aside
+        className="flex h-full flex-col gap-6 overflow-y-auto border-l border-zinc-200 p-5 dark:border-zinc-800"
+        style={{ backgroundColor: "var(--class-sidebar-bg, transparent)" }}
+      >
+        {languageSwitcher && <div>{languageSwitcher}</div>}
+
+        {qr && <div className="flex justify-center">{qr}</div>}
+
+        {nav && <div className="flex justify-center">{nav}</div>}
+
+        {authors.length > 0 && (
+          <div className="mt-auto space-y-4 text-sm text-zinc-700 dark:text-zinc-300">
+            {authors.map((author, i) => (
+              <AuthorCard key={i} author={author} />
+            ))}
+          </div>
+        )}
+      </aside>
+    </div>
+  );
+}
+
+function AuthorCard({ author }: { author: Author }) {
+  return (
+    <div className="space-y-1">
+      <div className="font-semibold text-zinc-900 dark:text-zinc-100">
+        {author.name}
+      </div>
+      {author.role && (
+        <div className="text-xs text-zinc-500 dark:text-zinc-400">
+          {author.role}
+        </div>
+      )}
+      {author.affiliation && (
+        <div className="text-xs text-zinc-500 dark:text-zinc-400">
+          {author.affiliation}
+        </div>
+      )}
+      {author.email && (
+        <a
+          href={`mailto:${author.email}`}
+          className="block text-xs text-zinc-600 underline decoration-zinc-300 underline-offset-2 hover:text-zinc-900 dark:text-zinc-400 dark:decoration-zinc-600 dark:hover:text-zinc-100"
+        >
+          {author.email}
+        </a>
+      )}
+      {author.url && (
+        <a
+          href={author.url}
+          target="_blank"
+          rel="noreferrer"
+          className="block text-xs text-zinc-600 underline decoration-zinc-300 underline-offset-2 hover:text-zinc-900 dark:text-zinc-400 dark:decoration-zinc-600 dark:hover:text-zinc-100"
+        >
+          {author.url.replace(/^https?:\/\//, "")}
+        </a>
+      )}
+    </div>
+  );
+}
