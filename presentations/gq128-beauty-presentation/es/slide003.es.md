@@ -1,8 +1,33 @@
 ---
-title: Accesibilidad sin fronteras
-subtitle: 'Cualquier dispositivo, cualquier lugar'
-sourceHash: sha256-49a9da5f743aa535dd81d5bd458ce0f1b3a34f105c8744004c728182b45e3306
+layout: content
+title: Los ejes están dibujados de lado
+subtitle: 'Deuda №1: Argand contra Wessel'
+sourceHash: sha256-4e64a61f69d4f94f2938f6c10999dd5a3e8856c1274466998cbd4b9d72c0e63d
 translatedBy: claude-opus-4-7
 ---
 
-El diseño adaptativo garantiza una visualización impecable en pantallas de cualquier tamaño — desde el proyector de la sala de conferencias hasta el smartphone en el bolsillo. Sin instalaciones, sin formatos — basta con abrir el enlace.
+![A la izquierda — Argand: Re horizontal, Im vertical, rotación positiva en sentido antihorario. A la derecha — Wessel: Re hacia arriba, Im hacia la derecha, rotación positiva en sentido horario, como en una brújula.](../assets/abstract/fig_axes.svg)
+
+*Gire los ejes según Wessel — y $e^{i\theta}$ comienza a rotar **en sentido horario**, como una brújula, un timón y el rumbo de un barco.*
+
+<!-- backstage -->
+
+## Párrafo completo (traducción del abstract)
+
+El plano complejo fue dotado por primera vez de forma geométrica por **Caspar Wessel** (1799), y su origen explica mucho: Wessel era **agrimensor noruego**, y su motivación era la representación analítica de la *dirección*. En el mundo del agrimensor, la orientación natural es **de navegación**: adelante es *arriba*, «hacia el lado» es *a la derecha*, y la rotación positiva sigue el movimiento de las agujas del reloj.
+
+Sin embargo, el diagrama de Argand, que descendió a los libros de texto, eligió la orientación **cartesiana**: el eje real es horizontal, la rotación positiva va **en contra** de las agujas del reloj.
+
+Restaure el sistema de Wessel: oriente el eje real **hacia arriba**, el imaginario **hacia la derecha**. La rotación positiva de $\mathrm{Re}$ a $\mathrm{Im}$, **algebraicamente la misma**, se convierte en una rotación **en sentido horario**. La exponencial compleja $e^{i\theta}$ ahora gira junto con la aguja del reloj, con la brújula que va del norte al este, y con el rumbo de un barco que vira a estribor. Las nociones gaussianas de *direct* y *lateral* se restauran como **adelante** y **a un lado**.
+
+La **deuda angular**, heredada de los diagramas cartesianos y no de la geometría misma, **se evapora**.
+
+## Por qué esto importa
+
+- En navegación, robótica y control de motores, el «ángulo» casi siempre se mide **en sentido horario desde el norte**. La física matemática, por costumbre, exige la traducción a «antihorario desde el este». Cada una de esas traducciones es fuente de errores de signo.
+- La convención de Wessel hace que $\cos\theta + i\sin\theta$ sea **el mismo** movimiento que $\mathrm{heading}(t)$ de una brújula, sin correcciones.
+- El álgebra de $\mathbb{C}$ no cambia: sólo cambia la imagen en la pizarra.
+
+## Referencia
+
+- **Wessel, C. (1799)** *Om directionens analytiske betegning*. Nye samling af det Kongelige Danske Videnskabernes Selskabs Skrifter, 5, 469–518. [sophiararebooks.com](https://www.sophiararebooks.com/pages/books/6397/caspar-wessel/om-directionens-analytiske-betegning-et-forsog-anvendt-fornemmelig-til-plane-og-sphaeriske)

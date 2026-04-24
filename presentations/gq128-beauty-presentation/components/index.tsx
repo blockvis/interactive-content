@@ -1,5 +1,7 @@
 import type { ComponentType } from "react";
 import { Callout } from "./callout";
+import { Compare } from "./compare";
+import { SevenDigitsSolid } from "./SevenDigitsSolid";
 
 /**
  * Registry of directive name → React component for this presentation.
@@ -17,4 +19,7 @@ export const components: Record<
   ComponentType<Record<string, unknown>>
 > = {
   callout: Callout as ComponentType<Record<string, unknown>>,
+  compare: Compare as ComponentType<Record<string, unknown>>,
+  "seven-digits-solid":
+    SevenDigitsSolid as ComponentType<Record<string, unknown>>,
 };

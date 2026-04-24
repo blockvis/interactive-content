@@ -1,13 +1,31 @@
 ---
 layout: title
-title: >-
-  La deuda técnica y la belleza de la geometría y aritmética de valores
-  complejos
-subtitle: Visualizaciones interactivas mediante IA
-sourceHash: sha256-44d357ef98970bf8b4c69db89fc413bee751a0f7cc13c359b01304d9e66dcd2d
+title: Deuda técnica y belleza de la geometría y aritmética de valores complejos
+subtitle: Visualizaciones interactivas con ayuda de la IA
+sourceHash: sha256-fd6dbfe1100046170d6054c5d259393615131bd52e27141a5ffa54d4c771f9b8
 translatedBy: claude-opus-4-7
 ---
 
 **Anatoly Ressin** · Blockvis SIA, BlockvisLabs
 
+Latgales iela 240-3, room 504, Riga, LV-1063, Latvia · `anatoly@blockvis.com`
+
 Escanee el código QR para seguir la presentación en su teléfono.
+
+<!-- backstage -->
+
+## De qué trata esta charla
+
+La charla persigue **dos objetivos paralelos**:
+
+1. **De contenido.** Mostrar que la geometría y la aritmética de valores complejos son bellas, y que a veces lo nuevo es lo viejo bien olvidado. Tres «obras maestras olvidadas» (Wessel 1799, Eisenstein 1844, Setun 1959), vistas desde una nueva perspectiva, dan lugar a un resultado moderno: el formato **GQ128**.
+
+2. **Metodológico.** Esta presentación es una *reference implementation* de una plataforma de presentaciones interactivas: una diapositiva es una página web con una URL única, y no una diapositiva en el sentido clásico. Consulte las pestañas **Content** y **Backstage**: la primera está destinada al público que principalmente sigue la charla; la segunda es una página wiki, material extendido para el estudio autónomo durante y después de la conferencia.
+
+## Palabras clave
+
+*History and Technical Debt of Mathematics · Eisenstein Integers · Gosper Island · Positional Coding · GQ128 Format · AI Visualization.*
+
+## Directores científicos
+
+*The research is supervised by* **Prof. Dr.Math. Jekaterina Gromova** *&* **Prof. Dr.Phys. Dmitry Bocharov**.

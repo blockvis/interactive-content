@@ -197,15 +197,7 @@ function copyMediaDir(name) {
   if (!fs.existsSync(srcDir) || !fs.statSync(srcDir).isDirectory()) return false;
 
   const destDir = path.join(OUT_PUBLIC, name);
-  fs.mkdirSync(destDir, { recursive: true });
-
-  for (const file of fs.readdirSync(srcDir)) {
-    const src = path.join(srcDir, file);
-    const dest = path.join(destDir, file);
-    if (fs.statSync(src).isFile()) {
-      fs.copyFileSync(src, dest);
-    }
-  }
+  fs.cpSync(srcDir, destDir, { recursive: true });
   console.log(`  Copied ${name}/ → public/content/${PRESENTATION_SLUG}/${name}/`);
   return true;
 }
