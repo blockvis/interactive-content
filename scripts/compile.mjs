@@ -7,8 +7,12 @@
  * Inputs:
  *   presentations/<slug>/
  *     presentation.md             — meta (class, languages, title, authors, ...)
- *     slide*.{lang}.md            — slide content
- *     assets/                     — optional media (copied to public/content/<slug>/assets/)
+ *     <lang>/slide*.<lang>.md     — slide content (one subdir per declared language;
+ *                                    language suffix in filename is kept for
+ *                                    unambiguous repo-wide search and to catch
+ *                                    mis-filed slides — dir and suffix must agree)
+ *     assets/                     — optional media (copied to public/content/<slug>/assets/).
+ *                                    Slides reference it as `../assets/foo.png`.
  *
  *   presentation-classes/<class-slug>/
  *     class.md                    — design tokens, chrome, event metadata
@@ -82,41 +86,99 @@ function readClassMeta(classSlug) {
 
 const SLIDE_RE = /^slide(\d+)\.(\w+)\.md$/;
 
-/** Rewrite relative media paths to `/content/<slug>/...` (works for any subdir). */
-function rewriteMediaPaths(body) {
+/**
+ * Rewrite relative media paths to `/content/<slug>/...`. Slides live in
+ * `<slug>/<lang>/slide*.md`, so an author who writes `![](../assets/foo.png)`
+ * means "the `assets/` folder at the presentation root". We resolve the
+ * path relative to the slide file (`<lang>/<rel>`, then normalize away
+ * `..`), then re-anchor on the public content URL. The contract from
+ * the manifest — "GitHub renders the same links natively" — stays
+ * intact: `../assets/foo.png` resolves the same way on GitHub.
+ */
+function rewriteMediaPaths(body, lang) {
   return body.replace(
     /!\[([^\]]*)\]\((?!https?:\/\/|\/)([^)]+)\)/g,
-    `![$1](/content/${PRESENTATION_SLUG}/$2)`
+    (_m, alt, rel) => {
+      const fromPresentationRoot = path.posix.normalize(
+        path.posix.join(lang, rel),
+      );
+      return `![${alt}](/content/${PRESENTATION_SLUG}/${fromPresentationRoot})`;
+    },
   );
+}
+
+/**
+ * Split slide body on the backstage marker comment: a single line containing
+ * just `<!-- backstage -->`. Canonical contract: the first half is the
+ * slide content (what the audience sees), the second — backstage materials
+ * for self-study. No marker → single-tab slide, `backstage` is `undefined`.
+ *
+ * We use an HTML comment rather than a thematic break (`---`) so authors
+ * keep `---` free for ordinary section dividers inside either tab. The
+ * marker is invisible in any markdown renderer (GitHub included), which
+ * keeps the file readable as a plain document.
+ */
+const BACKSTAGE_MARKER_RE = /^<!--\s*backstage\s*-->\s*$/m;
+
+function splitBackstage(body) {
+  const match = body.match(BACKSTAGE_MARKER_RE);
+  if (!match) return { content: body, backstage: undefined };
+  const idx = match.index;
+  const content = body.slice(0, idx);
+  const backstage = body.slice(idx + match[0].length);
+  return { content, backstage };
 }
 
 function collectSlides(languages) {
   const result = Object.fromEntries(languages.map((l) => [l, []]));
 
-  const files = fs
-    .readdirSync(PRESENTATION_DIR)
-    .filter((f) => SLIDE_RE.test(f))
-    .sort();
+  for (const lang of languages) {
+    const langDir = path.join(PRESENTATION_DIR, lang);
+    if (!fs.existsSync(langDir) || !fs.statSync(langDir).isDirectory()) {
+      console.warn(`  ⚠ missing language directory: ${lang}/ — skipping`);
+      continue;
+    }
 
-  for (const file of files) {
-    const match = file.match(SLIDE_RE);
-    if (!match) continue;
-    const slideNum = parseInt(match[1], 10);
-    const lang = match[2];
-    if (!languages.includes(lang)) continue;
+    const files = fs.readdirSync(langDir).filter((f) => SLIDE_RE.test(f)).sort();
 
-    const raw = fs.readFileSync(path.join(PRESENTATION_DIR, file), "utf-8");
-    const { data, content } = matter(raw);
+    for (const file of files) {
+      const match = file.match(SLIDE_RE);
+      if (!match) continue;
+      const slideNum = parseInt(match[1], 10);
+      const fileLang = match[2];
+      if (fileLang !== lang) {
+        console.warn(
+          `  ⚠ ${lang}/${file}: language suffix (.${fileLang}) does not match directory — skipping`,
+        );
+        continue;
+      }
 
-    result[lang].push({
-      id: slideNum,
-      title: data.title || `Slide ${slideNum}`,
-      subtitle: data.subtitle || undefined,
-      layout: data.layout || "content",
-      section: data.section || undefined,
-      qr: data.qr !== false, // default true; author can opt-out via `qr: false`
-      body: rewriteMediaPaths(content.trim()),
-    });
+      const raw = fs.readFileSync(path.join(langDir, file), "utf-8");
+      const { data, content } = matter(raw);
+
+      const parts = splitBackstage(content);
+      const slideContent = rewriteMediaPaths(parts.content.trim(), lang);
+      const slideBackstage =
+        parts.backstage !== undefined
+          ? rewriteMediaPaths(parts.backstage.trim(), lang)
+          : undefined;
+
+      result[lang].push({
+        id: slideNum,
+        title: data.title || `Slide ${slideNum}`,
+        subtitle: data.subtitle || undefined,
+        layout: data.layout || "content",
+        section: data.section || undefined,
+        qr: data.qr !== false, // default true; author can opt-out via `qr: false`
+        content: slideContent,
+        backstage:
+          slideBackstage && slideBackstage.length > 0 ? slideBackstage : undefined,
+        translatedBy:
+          typeof data.translatedBy === "string" && data.translatedBy.length > 0
+            ? data.translatedBy
+            : undefined,
+      });
+    }
   }
 
   for (const lang of languages) {

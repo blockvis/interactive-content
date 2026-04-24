@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import {
+  defaultLanguage,
   getSlide,
   getSlidesForLang,
   languages,
@@ -10,12 +11,19 @@ import {
   totalSlides,
 } from "@/lib/slides";
 import type { LayoutName, PlatformSlots } from "@/lib/class-module";
-import { resolveI18n, type Localized } from "@/lib/i18n";
+import { resolveI18n, TAB_LABELS, type Localized } from "@/lib/i18n";
 import classModule from "@/generated/class";
 import defaultClassModule from "@default-class/index";
 import { ReaderSlideNav, SlideNav } from "@/components/slide-nav";
 import { SlideQRCode } from "@/components/qr-code";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { MarkdownSlide } from "@/components/markdown-slide";
+import {
+  SlideTabsBody,
+  SlideTabsProvider,
+  SlideTabsSwitcher,
+} from "@/components/slide-tabs";
+import { TranslationBadge } from "@/components/translation-badge";
 
 const SLUG = "gq128-beauty-presentation";
 
@@ -27,10 +35,15 @@ interface QrTokens {
   size?: number;
   caption?: Localized;
 }
+interface TabsTokens {
+  content?: Localized;
+  backstage?: Localized;
+}
 interface ClassChrome {
   nav?: NavTokens;
   qrTitle?: QrTokens;
   qrPerSlide?: QrTokens;
+  tabs?: TabsTokens;
 }
 
 function getChrome(): ClassChrome {
@@ -67,7 +80,7 @@ export async function generateMetadata({
     presentation?.title ?? presentationClass?.name ?? "Presentation";
   return {
     title: `${slide.title} — ${suffix}`,
-    description: slide.body.slice(0, 160),
+    description: slide.content.slice(0, 160),
   };
 }
 
@@ -146,6 +159,39 @@ export default async function SlidePage({
     />
   ) : null;
 
+  const hasBackstage = Boolean(slide.backstage && slide.backstage.length > 0);
+
+  const contentNode = <MarkdownSlide content={slide.content} />;
+  const backstageNode = hasBackstage ? (
+    <MarkdownSlide content={slide.backstage!} />
+  ) : null;
+
+  const tabLabels = {
+    content:
+      resolveI18n(chrome.tabs?.content ?? TAB_LABELS.content, lang, fallbackLang) ??
+      "Slide",
+    backstage:
+      resolveI18n(
+        chrome.tabs?.backstage ?? TAB_LABELS.backstage,
+        lang,
+        fallbackLang,
+      ) ?? "Backstage",
+  };
+
+  const tabSwitcher = hasBackstage ? <SlideTabsSwitcher /> : null;
+  const slideBody = hasBackstage ? <SlideTabsBody /> : contentNode;
+
+  // Canonical language = presentation's source. Any other language is a
+  // translation and gets a badge; `translatedBy` (if set by the translate
+  // script) switches the badge into "AI" mode with the model id.
+  const translationBadge =
+    lang !== defaultLanguage ? (
+      <TranslationBadge
+        sourceLang={defaultLanguage}
+        model={slide.translatedBy}
+      />
+    ) : null;
+
   const platform: PlatformSlots = {
     lang,
     slideNumber: slideId,
@@ -155,16 +201,32 @@ export default async function SlidePage({
     languageSwitcher,
     titleQr,
     cornerQr,
+    tabSwitcher,
+    slideBody,
+    translationBadge,
   };
 
   const Layout = resolveLayout(slide.layout);
 
-  return (
+  const rendered = (
     <Layout
       slide={slide}
       presentation={presentation}
       classMeta={presentationClass}
       platform={platform}
     />
+  );
+
+  if (!hasBackstage) return rendered;
+
+  return (
+    <SlideTabsProvider
+      content={contentNode}
+      backstage={backstageNode}
+      hasBackstage={hasBackstage}
+      labels={tabLabels}
+    >
+      {rendered}
+    </SlideTabsProvider>
   );
 }

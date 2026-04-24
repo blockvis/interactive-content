@@ -1,5 +1,4 @@
 import type { LayoutProps } from "@/lib/class-module";
-import { MarkdownSlide } from "@/components/markdown-slide";
 import { BrandStripe } from "../chrome/brand-stripe";
 import { SideRail } from "../chrome/side-rail";
 import {
@@ -15,6 +14,7 @@ import {
  * Structure (presentation mode):
  *
  *   ┌ top stripe ──────────────────────────────────────┐
+ *   │ tab header (sticky) · [ Slide │ Backstage ]      │
  *   │ header (class name · lang on mobile)             │
  *   │ main                                             │ side rail
  *   │                                                  │ (QR + contacts)
@@ -28,6 +28,12 @@ import {
  * with a translucent blurred backdrop, so body text scrolls underneath
  * it; `main` reserves ~6rem + safe-area of padding-bottom so the last
  * lines clear the bar.
+ *
+ * The optional tab switcher (`platform.tabSwitcher`) sits in a pinned
+ * bar above the scrollable main — same on desktop and mobile — so the
+ * user can flip between the slide proper and its backstage materials
+ * without losing orientation while scrolling. When the slide has no
+ * backstage, `tabSwitcher` is null and the bar collapses.
  */
 export default function RatsifContentLayout({
   slide,
@@ -48,8 +54,20 @@ export default function RatsifContentLayout({
             <div className="text-sm font-medium text-zinc-400 dark:text-zinc-500">
               {classMeta?.name ?? presentation?.title ?? ""}
             </div>
-            <div data-reader-only>{platform.languageSwitcher}</div>
+            <div
+              data-reader-only
+              className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400"
+            >
+              {platform.translationBadge}
+              {platform.languageSwitcher}
+            </div>
           </header>
+
+          {platform.tabSwitcher && (
+            <div className="mx-auto mt-4 flex w-full max-w-3xl shrink-0 justify-center text-zinc-700 dark:text-zinc-300">
+              {platform.tabSwitcher}
+            </div>
+          )}
 
           <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-start gap-4 overflow-y-auto py-8 pb-[calc(6rem+env(safe-area-inset-bottom))] md:pb-8">
             {slide.subtitle && (
@@ -61,7 +79,7 @@ export default function RatsifContentLayout({
               {slide.title}
             </h1>
             <div className="text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
-              <MarkdownSlide content={slide.body} />
+              {platform.slideBody}
             </div>
           </main>
 
@@ -75,6 +93,7 @@ export default function RatsifContentLayout({
 
         <SideRail
           languageSwitcher={platform.languageSwitcher}
+          translationBadge={platform.translationBadge}
           qr={platform.cornerQr}
           authors={presentation?.authors ?? []}
         />

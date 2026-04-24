@@ -21,10 +21,12 @@ import type { Author } from "@/lib/slides";
  */
 export function SideRail({
   languageSwitcher,
+  translationBadge,
   qr,
   authors,
 }: {
   languageSwitcher: ReactNode;
+  translationBadge?: ReactNode;
   qr: ReactNode;
   authors: Author[];
 }) {
@@ -38,7 +40,12 @@ export function SideRail({
         className="flex h-full flex-col gap-6 overflow-y-auto border-l border-zinc-200 p-5 dark:border-zinc-800"
         style={{ backgroundColor: "var(--class-sidebar-bg, transparent)" }}
       >
-        {languageSwitcher && <div>{languageSwitcher}</div>}
+        {(languageSwitcher || translationBadge) && (
+          <div className="flex items-center gap-2">
+            {languageSwitcher}
+            {translationBadge}
+          </div>
+        )}
 
         {qr && <div className="flex justify-center">{qr}</div>}
 

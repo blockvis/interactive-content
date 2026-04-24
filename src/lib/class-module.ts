@@ -56,6 +56,37 @@ export interface PlatformSlots {
    * slide didn't opt out via `qr: false`.
    */
   cornerQr: ReactNode;
+
+  /**
+   * Tab switcher between the slide's two canonical tabs — `content`
+   * (what the audience sees) and `backstage` (extended materials).
+   * Non-null only when the slide file declared a backstage section
+   * (a `---` separator line inside the body). The class is responsible
+   * for placing this in a sticky top header; styling is inherited from
+   * the container so the component looks right against any background.
+   */
+  tabSwitcher: ReactNode;
+
+  /**
+   * Rendered markdown of the currently active tab. Always non-null.
+   * The layout must place this where the slide body goes; switching
+   * between `content` and `backstage` is handled internally (no
+   * re-render on the server, state lives in a client-side context
+   * and syncs with `location.hash`).
+   */
+  slideBody: ReactNode;
+
+  /**
+   * Small informational badge shown on any non-canonical language slide
+   * — both hand-authored translations and AI-assisted ones. Non-null when
+   * `slide.lang !== languages[0]`. Class layouts typically place it next
+   * to `languageSwitcher` so the signal sits with the language context.
+   * Null only on canonical-language slides. The badge itself distinguishes
+   * AI from manual translations in its tooltip (via `slide.translatedBy`);
+   * the visible pill is uniform — colour via `currentColor` so it fits
+   * any container the layout chooses.
+   */
+  translationBadge: ReactNode;
 }
 
 export interface LayoutProps {

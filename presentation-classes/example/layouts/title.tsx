@@ -8,7 +8,8 @@ export default function ExampleTitleLayout({
   const authors = presentation?.authors ?? [];
   return (
     <div className="relative flex h-dvh flex-col overflow-hidden px-6 py-10 sm:py-16">
-      <header className="mx-auto flex w-full max-w-5xl shrink-0 items-center justify-end">
+      <header className="mx-auto flex w-full max-w-5xl shrink-0 items-center justify-end gap-2">
+        {platform.translationBadge}
         {platform.languageSwitcher}
       </header>
 

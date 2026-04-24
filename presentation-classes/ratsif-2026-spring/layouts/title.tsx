@@ -15,6 +15,14 @@ import {
  * the stripe hides and the full-bleed reader nav (`platform.readerNav`)
  * is `position: fixed` at the viewport bottom with a blurred backdrop;
  * `main` adds padding-bottom to keep the big title clear of the bar.
+ *
+ * The title slide draws its content from structured metadata
+ * (`presentation.title`, `subtitle`, `authors`) rather than the
+ * slide's markdown body. Backstage tabs (`platform.tabSwitcher` /
+ * `platform.slideBody`) are therefore intentionally not placed here:
+ * a backstage on a title slide is silently ignored by this class. If
+ * a presentation needs discussion materials for the cover page, use
+ * a dedicated non-title slide.
  */
 export default function RatsifTitleLayout({
   slide,
@@ -30,7 +38,13 @@ export default function RatsifTitleLayout({
         <div className="text-sm font-medium text-zinc-400 dark:text-zinc-500">
           {classMeta?.name ?? presentation?.title ?? ""}
         </div>
-        <div data-reader-only>{platform.languageSwitcher}</div>
+        <div
+          data-reader-only
+          className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400"
+        >
+          {platform.translationBadge}
+          {platform.languageSwitcher}
+        </div>
       </header>
 
       <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center gap-8 overflow-y-auto px-6 py-8 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:flex-row sm:items-center sm:gap-16 sm:overflow-visible md:pb-8">
@@ -71,8 +85,11 @@ export default function RatsifTitleLayout({
 
         {platform.titleQr && (
           <div data-qr className="flex shrink-0 flex-col items-stretch gap-6">
-            {platform.languageSwitcher && (
-              <div>{platform.languageSwitcher}</div>
+            {(platform.languageSwitcher || platform.translationBadge) && (
+              <div className="flex items-center gap-2">
+                {platform.languageSwitcher}
+                {platform.translationBadge}
+              </div>
             )}
             {platform.titleQr}
           </div>

@@ -6,10 +6,12 @@
     "dev": "node scripts/dev.mjs",
     "build": "node scripts/compile.mjs && next build",
     "compile": "node scripts/compile.mjs",
+    "translate": "node --env-file=.env.local scripts/translate.mjs",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.91.0",
     "gray-matter": "^4.0.3",
     "katex": "^0.16.45",
     "next": "16.2.4",
