@@ -22,14 +22,24 @@ export interface PlatformSlots {
   total: number;
 
   /**
-   * Unified slide navigation: `◀  #/#  ▶`. Inherits font, colour and
-   * size from its container, so the same component looks right in a
-   * sticky footer, a brand stripe, or any other chrome slot. Click on
-   * the number badge opens a dropdown with all slide titles plus an
-   * inline input for direct number entry. Mandatory: every layout
-   * must render it somewhere visible.
+   * Compact presentation-mode nav: `◀  #/#  ▶`. Inherits font, colour
+   * and size from its container, so the same component looks right in
+   * a brand stripe, a chrome corner, or any other presentation slot.
+   * Click on the number badge opens a dropdown with all slide titles
+   * plus an inline input for direct number entry. Intended for desktop
+   * / projector placements; hide on mobile via `data-presentation-only`.
    */
   nav: ReactNode;
+
+  /**
+   * Full-bleed reader-mode nav. Large prev/next buttons at the edges,
+   * current slide number + title centred between them. No popover or
+   * input — optimised for touch. Intended for the sticky bottom strip
+   * on mobile; wrap in `data-reader-only`. Every layout must render
+   * at least one of `nav` / `readerNav` in each mode so the user can
+   * always page through slides.
+   */
+  readerNav: ReactNode;
 
   /** Language switcher. Null if the class disabled it via chrome.nav. */
   languageSwitcher: ReactNode;

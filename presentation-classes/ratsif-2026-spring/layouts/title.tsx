@@ -10,9 +10,11 @@ import {
  * Title layout for RaTSiF-2026 Spring.
  *
  * Per pptx master 1: bottom brand stripe only (no top stripe).
- * Slide nav sits inside the right half of the stripe, pinned to its
- * outer edge. On mobile the stripe hides and a reader-only nav
- * appears at the bottom of the main column.
+ * In presentation mode the compact nav (`platform.nav`) sits inside
+ * the right half of the stripe, pinned to its outer edge. On mobile
+ * the stripe hides and the full-bleed reader nav (`platform.readerNav`)
+ * is `position: fixed` at the viewport bottom with a blurred backdrop;
+ * `main` adds padding-bottom to keep the big title clear of the bar.
  */
 export default function RatsifTitleLayout({
   slide,
@@ -31,7 +33,7 @@ export default function RatsifTitleLayout({
         <div data-reader-only>{platform.languageSwitcher}</div>
       </header>
 
-      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center gap-8 overflow-y-auto px-6 py-8 sm:flex-row sm:items-center sm:gap-16 sm:overflow-visible">
+      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center gap-8 overflow-y-auto px-6 py-8 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:flex-row sm:items-center sm:gap-16 sm:overflow-visible md:pb-8">
         <div className="flex flex-1 flex-col gap-6 text-center sm:text-left">
           {slide.subtitle && (
             <p className="text-sm font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
@@ -79,9 +81,9 @@ export default function RatsifTitleLayout({
 
       <div
         data-reader-only
-        className="mx-auto flex w-full max-w-5xl shrink-0 items-center justify-center border-t border-zinc-100 px-6 pb-6 pt-4 text-base text-zinc-600 dark:border-zinc-800 dark:text-zinc-300"
+        className="fixed inset-x-0 bottom-0 z-40 flex items-stretch border-t border-zinc-200 bg-white/95 px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95"
       >
-        {platform.nav}
+        {platform.readerNav}
       </div>
 
       <BrandStripe

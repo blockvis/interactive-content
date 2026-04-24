@@ -13,7 +13,7 @@ import type { LayoutName, PlatformSlots } from "@/lib/class-module";
 import { resolveI18n, type Localized } from "@/lib/i18n";
 import classModule from "@/generated/class";
 import defaultClassModule from "@default-class/index";
-import { SlideNav } from "@/components/slide-nav";
+import { ReaderSlideNav, SlideNav } from "@/components/slide-nav";
 import { SlideQRCode } from "@/components/qr-code";
 import { LanguageSwitcher } from "@/components/language-switcher";
 
@@ -129,6 +129,15 @@ export default async function SlidePage({
     />
   );
 
+  const readerNav = (
+    <ReaderSlideNav
+      currentSlide={slideId}
+      slides={slidesList}
+      lang={lang}
+      routePrefix={routePrefix}
+    />
+  );
+
   const languageSwitcher = showLanguageSwitcher ? (
     <LanguageSwitcher
       currentLang={lang}
@@ -142,6 +151,7 @@ export default async function SlidePage({
     slideNumber: slideId,
     total,
     nav,
+    readerNav,
     languageSwitcher,
     titleQr,
     cornerQr,

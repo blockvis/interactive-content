@@ -185,7 +185,13 @@ export function SlideNav({
 }
 
 /** Filled triangle, sized in `em`, coloured via currentColor. */
-function TriangleIcon({ direction }: { direction: "left" | "right" }) {
+function TriangleIcon({
+  direction,
+  size = "1.1em",
+}: {
+  direction: "left" | "right";
+  size?: string;
+}) {
   const points =
     direction === "right" ? "8,5 19,12 8,19" : "16,5 5,12 16,19";
   return (
@@ -193,9 +199,92 @@ function TriangleIcon({ direction }: { direction: "left" | "right" }) {
       viewBox="0 0 24 24"
       aria-hidden="true"
       focusable="false"
-      style={{ width: "1.1em", height: "1.1em" }}
+      style={{ width: size, height: size }}
     >
       <polygon points={points} fill="currentColor" />
     </svg>
+  );
+}
+
+/**
+ * Reader-mode slide navigation.
+ *
+ *   [ ◀ ]       2 / 3                [ ▶ ]
+ *               Slide title
+ *
+ * Full-width by design — meant to occupy the entire sticky bottom
+ * strip on mobile. Big touch targets at the edges, current slide
+ * number plus title centred between them. No popover, no input,
+ * no keyboard affordances: on mobile the unified desktop nav
+ * (`SlideNav`) still owns the keyboard contract for the rare
+ * tablet-with-keyboard case, and that component also sits in the
+ * DOM (hidden by `data-presentation-only`).
+ */
+export function ReaderSlideNav({
+  currentSlide,
+  slides,
+  lang,
+  routePrefix = "",
+}: {
+  currentSlide: number;
+  slides: { id: number; title: string | null }[];
+  lang: string;
+  routePrefix?: string;
+}) {
+  const total = slides.length;
+  const hasPrev = currentSlide > 1;
+  const hasNext = currentSlide < total;
+  const hrefFor = (n: number) => `${routePrefix}/slides/${lang}/${n}`;
+  const current = slides.find((s) => s.id === currentSlide);
+  const title = current?.title ?? `Slide ${currentSlide}`;
+
+  const buttonBase =
+    "flex shrink-0 items-center justify-center rounded-full px-4 py-3 transition-colors";
+  const buttonEnabled =
+    "text-zinc-700 hover:bg-zinc-100 active:bg-zinc-200 dark:text-zinc-200 dark:hover:bg-zinc-800 dark:active:bg-zinc-700";
+  const buttonDisabled = "text-zinc-300 dark:text-zinc-700";
+
+  return (
+    <nav
+      className="flex w-full items-center gap-2"
+      aria-label="Slide navigation"
+    >
+      {hasPrev ? (
+        <Link
+          href={hrefFor(currentSlide - 1)}
+          aria-label="Previous slide"
+          className={`${buttonBase} ${buttonEnabled}`}
+        >
+          <TriangleIcon direction="left" size="1.75em" />
+        </Link>
+      ) : (
+        <span aria-hidden className={`${buttonBase} ${buttonDisabled}`}>
+          <TriangleIcon direction="left" size="1.75em" />
+        </span>
+      )}
+
+      <div className="flex min-w-0 flex-1 flex-col items-center text-center leading-tight">
+        <span className="text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+          {currentSlide} / {total}
+        </span>
+        <span className="max-w-full truncate text-sm font-medium text-zinc-800 dark:text-zinc-100">
+          {title}
+        </span>
+      </div>
+
+      {hasNext ? (
+        <Link
+          href={hrefFor(currentSlide + 1)}
+          aria-label="Next slide"
+          className={`${buttonBase} ${buttonEnabled}`}
+        >
+          <TriangleIcon direction="right" size="1.75em" />
+        </Link>
+      ) : (
+        <span aria-hidden className={`${buttonBase} ${buttonDisabled}`}>
+          <TriangleIcon direction="right" size="1.75em" />
+        </span>
+      )}
+    </nav>
   );
 }
