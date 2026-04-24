@@ -16,20 +16,23 @@ export default function ExampleTitleLayout({
       <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center gap-8 overflow-y-auto py-8 sm:flex-row sm:items-center sm:gap-16 sm:overflow-visible">
         <div className="flex flex-1 flex-col gap-6 text-center sm:text-left">
           {slide.subtitle && (
-            <p className="text-sm font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+            <p className="text-sm font-semibold uppercase tracking-widest opacity-60">
               {slide.subtitle}
             </p>
           )}
-          <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+          <h1 
+            className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl"
+            style={{ color: "var(--class-primary, inherit)" }}
+          >
             {slide.title}
           </h1>
           {authors.length > 0 && (
-            <div className="mt-2 flex flex-col gap-2 text-lg text-zinc-600 dark:text-zinc-300">
+            <div className="mt-2 flex flex-col gap-2 text-lg opacity-80">
               {authors.map((a, i) => (
                 <div key={i}>
                   <span className="font-semibold">{a.name}</span>
                   {a.affiliation && (
-                    <span className="text-zinc-500 dark:text-zinc-400">
+                    <span className="opacity-70">
                       {" "}
                       · {a.affiliation}
                     </span>

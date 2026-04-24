@@ -37,8 +37,11 @@ export function SideRail({
       style={{ width: "var(--class-sidebar-width, 280px)" }}
     >
       <aside
-        className="flex h-full flex-col gap-6 overflow-y-auto border-l border-zinc-200 p-5 dark:border-zinc-800"
-        style={{ backgroundColor: "var(--class-sidebar-bg, transparent)" }}
+        className="flex h-full flex-col gap-6 overflow-y-auto border-l p-5"
+        style={{ 
+          backgroundColor: "var(--class-sidebar-bg, transparent)",
+          borderColor: "color-mix(in srgb, var(--class-foreground) 15%, transparent)"
+        }}
       >
         {(languageSwitcher || translationBadge) && (
           <div className="flex items-center gap-2">
@@ -50,7 +53,7 @@ export function SideRail({
         {qr && <div className="flex justify-center">{qr}</div>}
 
         {authors.length > 0 && (
-          <div className="mt-auto space-y-4 text-sm text-zinc-700 dark:text-zinc-300">
+          <div className="mt-auto space-y-4 text-sm opacity-80">
             {authors.map((author, i) => (
               <AuthorCard key={i} author={author} />
             ))}
@@ -64,23 +67,23 @@ export function SideRail({
 function AuthorCard({ author }: { author: Author }) {
   return (
     <div className="space-y-1">
-      <div className="font-semibold text-zinc-900 dark:text-zinc-100">
+      <div className="font-semibold">
         {author.name}
       </div>
       {author.role && (
-        <div className="text-xs text-zinc-500 dark:text-zinc-400">
+        <div className="text-xs opacity-70">
           {author.role}
         </div>
       )}
       {author.affiliation && (
-        <div className="text-xs text-zinc-500 dark:text-zinc-400">
+        <div className="text-xs opacity-70">
           {author.affiliation}
         </div>
       )}
       {author.email && (
         <a
           href={`mailto:${author.email}`}
-          className="block text-xs text-zinc-600 underline decoration-zinc-300 underline-offset-2 hover:text-zinc-900 dark:text-zinc-400 dark:decoration-zinc-600 dark:hover:text-zinc-100"
+          className="block text-xs opacity-80 underline decoration-current/50 underline-offset-2 hover:opacity-100"
         >
           {author.email}
         </a>
@@ -90,7 +93,7 @@ function AuthorCard({ author }: { author: Author }) {
           href={author.url}
           target="_blank"
           rel="noreferrer"
-          className="block text-xs text-zinc-600 underline decoration-zinc-300 underline-offset-2 hover:text-zinc-900 dark:text-zinc-400 dark:decoration-zinc-600 dark:hover:text-zinc-100"
+          className="block text-xs opacity-80 underline decoration-current/50 underline-offset-2 hover:opacity-100"
         >
           {author.url.replace(/^https?:\/\//, "")}
         </a>

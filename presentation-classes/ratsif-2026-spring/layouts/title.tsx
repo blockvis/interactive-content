@@ -35,12 +35,12 @@ export default function RatsifTitleLayout({
   return (
     <div className="flex h-dvh flex-col">
       <header className="mx-auto flex w-full max-w-5xl shrink-0 items-center justify-between px-6 pt-6 sm:pt-10">
-        <div className="text-sm font-medium text-zinc-400 dark:text-zinc-500">
+        <div className="text-sm font-medium opacity-60">
           {classMeta?.name ?? presentation?.title ?? ""}
         </div>
         <div
           data-reader-only
-          className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400"
+          className="flex items-center gap-2 opacity-70"
         >
           {platform.translationBadge}
           {platform.languageSwitcher}
@@ -50,7 +50,7 @@ export default function RatsifTitleLayout({
       <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center gap-8 overflow-y-auto px-6 py-8 pb-[calc(6rem+env(safe-area-inset-bottom))] sm:flex-row sm:items-center sm:gap-16 sm:overflow-visible md:pb-8">
         <div className="flex flex-1 flex-col gap-6 text-center sm:text-left">
           {slide.subtitle && (
-            <p className="text-sm font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+            <p className="text-sm font-semibold uppercase tracking-widest opacity-60">
               {slide.subtitle}
             </p>
           )}
@@ -67,13 +67,13 @@ export default function RatsifTitleLayout({
                 <div key={i} className="leading-snug">
                   <span className="text-lg font-semibold">{a.name}</span>
                   {a.affiliation && (
-                    <span className="text-lg text-zinc-500 dark:text-zinc-400">
+                    <span className="text-lg opacity-70">
                       {" "}
                       · {a.affiliation}
                     </span>
                   )}
                   {a.role && (
-                    <div className="text-sm text-zinc-500 dark:text-zinc-400">
+                    <div className="text-sm opacity-70">
                       {a.role}
                     </div>
                   )}
