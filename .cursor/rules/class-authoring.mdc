@@ -1,0 +1,27 @@
+---
+description: How to derive a presentation class from a pptx / beamer / brandbook or from scratch. Triggers on requests like "create/make/derive a presentation class", "import a pptx template", "сделай класс для конференции", "import brandbook", "port pptx theme", "add a new presentation class".
+alwaysApply: false
+---
+
+# Presentation class authoring
+
+When the user asks to create, derive or import a presentation class —
+whether from a `.pptx` template, a beamer / `.tex` theme, a brandbook
+PDF, or from scratch — **read `meta/class-authoring.ru.md` before
+touching the filesystem**, then execute by it.
+
+That file is the canonical playbook: where source files go, which
+visual tokens must be extracted and how they map to `class.md`,
+what `layouts/` must provide, how chrome components are factored,
+the ClassModule contract, the readiness checklist, and the
+"evolution, not revolution" rule that constrains stylistic freedom.
+
+Do not improvise the class structure or the `class.md` schema from
+memory — both are pinned by `src/lib/class-module.ts` and the meta
+runbook, and drifting from them breaks `scripts/compile.mjs`.
+
+Reference implementations to copy from:
+
+- `presentation-classes/example/` — minimal correct class (fallback).
+- `presentation-classes/ratsif-2026-spring/` — full pptx port with
+  brand stripes and two layouts.
