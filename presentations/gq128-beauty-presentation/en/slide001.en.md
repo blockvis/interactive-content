@@ -18,14 +18,14 @@ Scan the QR code to follow the talk on your phone.
 
 The talk pursues **two parallel goals**:
 
-1. **Substantive.** To show that complex-valued geometry and arithmetic are beautiful, and that sometimes the new is well-forgotten old. Three "forgotten masterpieces" (Wessel 1799, Eisenstein 1844, Setun 1959), viewed from a new angle, give rise to a modern result — the **GQ128** format.
+1. **Substantive.** To show that complex-valued geometry and arithmetic are beautiful, and that sometimes the new is the well-forgotten old. Three "forgotten masterpieces" (Wessel 1799, Eisenstein 1844, Setun 1959), viewed from a new angle, give rise to a modern result — the **GQ128** format.
 
-2. **Methodological.** This presentation is a *reference implementation* of an interactive presentation platform: a slide is a web page with a unique URL, not a slide in the classical sense. See the **Content** and **Backstage** tabs: the first is intended for the audience, who are mostly watching the talk; the second is a wiki page, extended material for independent study during and after the lecture.
+2. **Methodological.** This presentation is a *reference implementation* of an interactive presentation platform: a slide is a web page with a unique URL, not a slide in the classical sense. See the **Content** and **Backstage** tabs: the former is intended for the audience, which mostly watches the talk; the latter is a wiki page, extended material for independent study during and after the lecture.
 
 ## Keywords
 
 *History and Technical Debt of Mathematics · Eisenstein Integers · Gosper Island · Positional Coding · GQ128 Format · AI Visualization.*
 
-## Academic Supervisors
+## Supervisors
 
 *The research is supervised by* **Prof. Dr.Math. Jekaterina Gromova** *&* **Prof. Dr.Phys. Dmitry Bocharov**.

@@ -9,26 +9,26 @@ translatedBy: claude-opus-4-7
 > *«enveloped in mystery and surrounded by darkness»*
 > — **C. F. Gauss**, *Theoria residuorum biquadraticorum*, Commentatio secunda (1831)
 
-Gauss blamed not mathematics but the words: had $+1$, $-1$, and $\sqrt{-1}$ been called **direct**, **inverse**, and **lateral** from the very beginning, the fog would never have formed.
+Gauss blamed not the mathematics but the words: had $+1$, $-1$ and $\sqrt{-1}$ been called **direct**, **inverse** and **lateral** from the very beginning, the fog would never have set in.
 
 <!-- backstage -->
 
 ## Full paragraph (translation of the abstract)
 
-In 1831, reflecting on nearly two centuries of confusion surrounding the square root of minus one, Gauss remarked that the subject was *«enveloped in mystery and surrounded by darkness»* — and he blamed this not on mathematics but on the words. If $+1$, $-1$, and $\sqrt{-1}$ had been called not *positive*, *negative*, and *imaginary*, but **direct**, **inverse**, and **lateral**, then, in his view, the darkness would never have arisen.
+In 1831, reflecting on almost two centuries of confusion surrounding the square root of minus one, Gauss remarked that the subject was *«enveloped in mystery and surrounded by darkness»* — and blamed this not on the mathematics but on the words. Had $+1$, $-1$ and $\sqrt{-1}$ been called not *positive*, *negative* and *imaginary*, but **direct**, **inverse** and **lateral**, then, in his opinion, the darkness would never have formed.
 
-The term *imaginary* itself came through Descartes and was cemented by Euler in *Introductio in analysin infinitorum* (1748), whence modern textbooks inherited it. The correction Gauss proposed was not accepted.
+The term *imaginary* itself came via Descartes and was cemented by Euler in *Introductio in analysin infinitorum* (1748), whence it was inherited by modern textbooks. Gauss's proposed correction was not adopted.
 
 :::callout{tone=accent}
-This talk takes Gauss's complaint seriously and goes further than he himself dared — through the **axes**, through the **lattice**, through the **unit interval** — and shows that the resulting geometry is not only more natural, but also more beautiful.
+This talk takes Gauss's complaint seriously and goes further than he himself dared — through the **axes**, through the **lattice**, through the **unit interval** — and shows that the resulting geometry is not only more natural but also more beautiful.
 :::
 
-## Three technical debts we will be paying off
+## Three pieces of technical debt we will be paying off
 
-| № | What is broken | Who in history already started the repair |
-|---|----------------|-------------------------------------------|
-| 1 | The axes are drawn "sideways" (Argand vs. Wessel) | Caspar Wessel, 1799 |
-| 2 | Hermiticity is an algebraic statement, but could be a mirror | (know-how of this talk) |
+| № | What is broken | Who in history already started fixing it |
+|---|----------------|------------------------------------------|
+| 1 | Axes drawn "sideways" (Argand vs. Wessel) | Caspar Wessel, 1799 |
+| 2 | Hermiticity is an algebraic statement, but could have been a mirror | (the talk's know-how) |
 | 3 | $\mathbb{Z}[i]$ is not the optimal lattice; the right one is $\mathbb{Z}[\omega]$ | Gotthold Eisenstein, 1844 |
 
 ## References

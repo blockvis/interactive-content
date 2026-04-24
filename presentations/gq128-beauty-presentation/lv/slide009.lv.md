@@ -52,4 +52,4 @@ Om directionens analytiske betegning. *Nye samling af det Kongelige Danske Viden
 
 ## Pateicība par referātu kaimiņiem
 
-Paldies **RaTSiF-2026 Spring** organizācijas komitejai (49. sesija, TSI, Rīga, 2026. gada 24. aprīlis) — un, plašākā nozīmē, visiem, kas uz skatuves un zālē ir gatavi pieņemt, ka «skaistums» un «tehniskais parāds» ir **viena un tā pati** tēma, aplūkota no dažādām pusēm.
+Paldies **RaTSiF-2026 Spring** (49. sesija, TSI, Rīga, 2026. gada 24. aprīlis) organizācijas komitejai — un, plašāk, visiem, kas uz skatuves un zālē ir gatavi pieņemt, ka «skaistums» un «tehniskais parāds» ir **viena un tā pati** tēma, aplūkota no dažādām pusēm.

@@ -8,11 +8,11 @@ translatedBy: claude-opus-4-7
 
 ![Caspar Wessel (1745–1818), norweski geodeta i autor pierwszej geometrycznej reprezentacji liczb zespolonych](../assets/abstract/wessel-portrait.jpg)
 
-*Badania prowadzone są pod opieką naukową* **Prof. Dr.Math. Jekateriny Gromovej** *oraz* **Prof. Dr.Phys. Dmitry Bocharova**.
+*Badania prowadzone są pod kierunkiem naukowym* **Prof. Dr.Math. Jekateriny Gromovej** *oraz* **Prof. Dr.Phys. Dmitrija Bocharova**.
 
 <!-- backstage -->
 
-## Odniesienia abstraktu
+## Odnośniki z abstraktu
 
 **Eisenstein, G. (1844)**
 Beweis des Reciprocitätssatzes für die cubischen Reste in der Theorie der aus dritten Wurzeln der Einheit zusammengesetzten complexen Zahlen.
@@ -50,6 +50,6 @@ An imaginary number system.
 Om directionens analytiske betegning. *Nye samling af det Kongelige Danske Videnskabernes Selskabs Skrifter*, 5, 469–518.
 [sophiararebooks.com/…/om-directionens-analytiske-betegning](https://www.sophiararebooks.com/pages/books/6397/caspar-wessel/om-directionens-analytiske-betegning-et-forsog-anvendt-fornemmelig-til-plane-og-sphaeriske)
 
-## Podziękowania za sąsiedztwo referatów
+## Podziękowanie za sąsiedztwo referatów
 
-Dziękuję komitetowi organizacyjnemu **RaTSiF-2026 Spring** (49. sesja, TSI, Ryga, 24 kwietnia 2026) — i, szerzej, wszystkim, którzy na scenie i na sali są gotowi przyjąć, że „piękno" i „dług techniczny" to **ten sam** temat, rozpatrywany z różnych stron.
+Dziękuję komitetowi organizacyjnemu **RaTSiF-2026 Spring** (49. sesja, TSI, Ryga, 24 kwietnia 2026) — a szerzej: wszystkim, którzy na scenie i na widowni są gotowi przyjąć, że „piękno" i „dług techniczny" to **ten sam** temat, rozpatrywany z różnych stron.

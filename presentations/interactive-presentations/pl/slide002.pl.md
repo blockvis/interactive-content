@@ -8,5 +8,5 @@ translatedBy: claude-opus-4-7
 Każdy slajd to osobna strona internetowa z unikalnym adresem. Uczestnicy mogą śledzić prezentację na swoich urządzeniach, wchodzić w interakcję z treścią i wracać do materiałów w dowolnym momencie.
 
 :::callout{tone=accent}
-Każdy slajd można rozszerzyć o interaktywny komponent React za pomocą dyrektywy `:::nazwa{...}`. Na GitHubie dyrektywa wyświetli się jako tekst, a w przeglądarce — jako żywy blok.
+Dowolny slajd można rozszerzyć interaktywnym komponentem React za pomocą dyrektywy `:::nazwa{...}`. Na GitHubie dyrektywa wyświetli się jako tekst, a w przeglądarce — jako żywy blok.
 :::

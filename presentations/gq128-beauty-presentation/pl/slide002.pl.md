@@ -9,27 +9,27 @@ translatedBy: claude-opus-4-7
 > *«enveloped in mystery and surrounded by darkness»*
 > — **C. F. Gauss**, *Theoria residuorum biquadraticorum*, Commentatio secunda (1831)
 
-Gauss obwiniał nie matematykę, lecz słowa: gdyby $+1$, $-1$ i $\sqrt{-1}$ od początku nazwano **prostą**, **odwrotną** i **boczną** — mgła nigdy by się nie utworzyła.
+Gauss obwiniał nie matematykę, lecz słowa: gdyby $+1$, $-1$ i $\sqrt{-1}$ od samego początku nazwano **prostym**, **odwrotnym** i **bocznym** — mgła by się nie uformowała.
 
 <!-- backstage -->
 
 ## Pełny akapit (tłumaczenie abstraktu)
 
-W 1831 roku, rozważając niemal dwuwieczne zamieszanie wokół pierwiastka kwadratowego z minus jedynki, Gauss zauważył, że przedmiot był *«okutany tajemnicą i otoczony ciemnością»* — i obwiniał za to nie matematykę, lecz słowa. Gdyby $+1$, $-1$ i $\sqrt{-1}$ nazywano nie *dodatnią*, *ujemną* i *urojoną*, lecz **prostą** (*direct*), **odwrotną** (*inverse*) i **boczną** (*lateral*), to — jego zdaniem — ciemność nigdy by się nie zagęściła.
+W 1831 roku, rozmyślając nad prawie dwuwiekowym zamętem wokół pierwiastka kwadratowego z minus jedynki, Gauss zauważył, że temat był *«spowity tajemnicą i otoczony mrokiem»* — i winił za to nie matematykę, lecz słowa. Gdyby $+1$, $-1$ i $\sqrt{-1}$ nazywano nie *dodatnim*, *ujemnym* i *urojonym*, a **prostym** (*direct*), **odwrotnym** (*inverse*) i **bocznym** (*lateral*), to — jego zdaniem — mrok nigdy by się nie uformował.
 
 Sam termin *imaginary* przyszedł przez Kartezjusza i został utrwalony przez Eulera w *Introductio in analysin infinitorum* (1748), skąd odziedziczyły go współczesne podręczniki. Zaproponowanej przez Gaussa poprawki nie przyjęto.
 
 :::callout{tone=accent}
-Ten wykład traktuje skargę Gaussa poważnie i idzie dalej, niż on sam się odważył — przez **osie**, przez **siatkę**, przez **przedział jednostkowy** — i pokazuje, że powstająca geometria jest nie tylko bardziej naturalna, ale i piękniejsza.
+Ten wykład traktuje skargę Gaussa poważnie i idzie dalej, niż on sam się odważył, — przez **osie**, przez **kratę**, przez **odcinek jednostkowy** — i pokazuje, że wynikająca stąd geometria jest nie tylko bardziej naturalna, ale i piękniejsza.
 :::
 
 ## Trzy długi techniczne, które będziemy spłacać
 
-| Nr | Co jest zepsute | Kto w historii już zaczął naprawiać |
+| № | Co jest zepsute | Kto w historii już zaczął naprawiać |
 |---|-------------|--------------------------------|
-| 1 | Osie narysowane «bokiem» (Argand kontra Wessel) | Caspar Wessel, 1799 |
-| 2 | Hermitowskość — twierdzenie algebraiczne, a mogłaby być lustrem | (know-how wykładu) |
-| 3 | $\mathbb{Z}[i]$ — nie jest optymalną siatką; właściwą jest $\mathbb{Z}[\omega]$ | Gotthold Eisenstein, 1844 |
+| 1 | Osie narysowane „bokiem" (Argand kontra Wessel) | Caspar Wessel, 1799 |
+| 2 | Hermitowskość — stwierdzenie algebraiczne, a mogłaby być lustrem | (know-how wykładu) |
+| 3 | $\mathbb{Z}[i]$ — nie jest optymalną kratą; właściwa to $\mathbb{Z}[\omega]$ | Gotthold Eisenstein, 1844 |
 
 ## Odnośniki
 

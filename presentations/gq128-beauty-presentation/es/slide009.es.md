@@ -52,4 +52,4 @@ Om directionens analytiske betegning. *Nye samling af det Kongelige Danske Viden
 
 ## Agradecimiento por la vecindad de las ponencias
 
-Gracias al comité organizador de **RaTSiF-2026 Spring** (49.ª sesión, TSI, Riga, 24 de abril de 2026) — y, en un sentido más amplio, a todos quienes, tanto en el escenario como en la sala, están dispuestos a aceptar que «belleza» y «deuda técnica» son **un mismo** tema, contemplado desde distintos ángulos.
+Gracias al comité organizador de **RaTSiF-2026 Spring** (49.ª edición, TSI, Riga, 24 de abril de 2026) — y, en sentido más amplio, a todos los que, en el escenario y en la sala, están dispuestos a aceptar que «belleza» y «deuda técnica» son **un mismo** tema, contemplado desde distintos ángulos.

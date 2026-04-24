@@ -10,9 +10,9 @@ translatedBy: claude-opus-4-7
 
 **Anatoly Ressin** · Blockvis SIA, BlockvisLabs
 
-Latgales iela 240-3, room 504, Riga, LV-1063, Latvia · `anatoly@blockvis.com`
+Latgales iela 240-3, salle 504, Riga, LV-1063, Lettonie · `anatoly@blockvis.com`
 
-Scannez le QR code pour suivre l'exposé sur votre téléphone.
+Scannez le QR code pour suivre la présentation sur votre téléphone.
 
 <!-- backstage -->
 
@@ -20,9 +20,9 @@ Scannez le QR code pour suivre l'exposé sur votre téléphone.
 
 L'exposé poursuit **deux objectifs parallèles** :
 
-1. **Objectif de contenu.** Montrer que la géométrie et l'arithmétique à valeurs complexes sont belles, et que parfois le nouveau n'est que du vieux oublié. Trois « chefs-d'œuvre oubliés » (Wessel 1799, Eisenstein 1844, Setun 1959), abordés sous un angle nouveau, engendrent un résultat contemporain — le format **GQ128**.
+1. **Objectif de fond.** Montrer que la géométrie et l'arithmétique à valeurs complexes sont belles, et que parfois le neuf n'est que de l'ancien oublié. Trois « chefs-d'œuvre oubliés » (Wessel 1799, Eisenstein 1844, Setun 1959), vus sous un angle nouveau, engendrent un résultat contemporain — le format **GQ128**.
 
-2. **Objectif méthodologique.** Cette présentation est une *reference implementation* d'une plateforme de présentations interactives : un slide est une page web avec une URL unique, et non un slide au sens classique. Voyez les onglets **Content** et **Backstage** : le premier est destiné au public qui suit principalement l'exposé ; le second est une page wiki, un matériel étendu pour l'étude autonome pendant et après la conférence.
+2. **Objectif méthodologique.** Cette présentation est une *reference implementation* d'une plateforme de présentations interactives : une diapositive est une page web avec une URL unique, et non une diapositive au sens classique. Voyez les onglets **Content** et **Backstage** : le premier s'adresse au public qui suit principalement l'exposé ; le second est une page wiki, un matériel élargi pour l'étude autonome pendant et après la conférence.
 
 ## Mots-clés
 

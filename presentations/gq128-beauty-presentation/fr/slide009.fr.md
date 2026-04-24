@@ -12,7 +12,7 @@ translatedBy: claude-opus-4-7
 
 <!-- backstage -->
 
-## Références de l'abstract
+## Références du résumé
 
 **Eisenstein, G. (1844)**
 Beweis des Reciprocitätssatzes für die cubischen Reste in der Theorie der aus dritten Wurzeln der Einheit zusammengesetzten complexen Zahlen.
@@ -20,7 +20,7 @@ Beweis des Reciprocitätssatzes für die cubischen Reste in der Theorie der aus 
 [degruyterbrill.com/…/crll.1844.27.289](https://www.degruyterbrill.com/document/doi/10.1515/crll.1844.27.289/html)
 
 **Euler, L. (1748)**
-*Introductio in analysin infinitorum*. Lausanne: Marcum-Michaelem Bousquet.
+*Introductio in analysin infinitorum*. Lausanne : Marcum-Michaelem Bousquet.
 [scholarlycommons.pacific.edu/euler-works/101](https://scholarlycommons.pacific.edu/euler-works/101/)
 
 **Gardner, M. (1976)**
@@ -34,7 +34,7 @@ Theoria residuorum biquadraticorum, Commentatio secunda.
 [sophiararebooks.com/…/theoria-residuorum-biquadraticorum](https://www.sophiararebooks.com/pages/books/6172/carl-friedrich-gauss/theoria-residuorum-biquadraticorum-commentatio-prima-secunda)
 
 **Ireland, K. and Rosen, M. (1990)**
-*A Classical Introduction to Modern Number Theory*, 2nd ed. New York: Springer-Verlag.
+*A Classical Introduction to Modern Number Theory*, 2nd ed. New York : Springer-Verlag.
 [link.springer.com/book/10.1007/978-1-4757-2103-4](https://link.springer.com/book/10.1007/978-1-4757-2103-4)
 
 **Knuth, D. E. (1960)**
@@ -43,7 +43,7 @@ An imaginary number system.
 [dl.acm.org/doi/10.1145/367177.367233](https://dl.acm.org/doi/10.1145/367177.367233)
 
 **Mandelbrot, B. B. (1977)**
-*Fractals: Form, Chance, and Dimension*. San Francisco: W. H. Freeman.
+*Fractals: Form, Chance, and Dimension*. San Francisco : W. H. Freeman.
 [archive.org/details/fractalsformchan0000mand](https://archive.org/details/fractalsformchan0000mand)
 
 **Wessel, C. (1799)**
@@ -52,4 +52,4 @@ Om directionens analytiske betegning. *Nye samling af det Kongelige Danske Viden
 
 ## Remerciements pour le voisinage des exposés
 
-Merci au comité d'organisation de **RaTSiF-2026 Spring** (49ᵉ session, TSI, Riga, 24 avril 2026) — et, plus largement, à toutes celles et ceux qui, sur scène et dans la salle, sont prêts à admettre que la « beauté » et la « dette technique » constituent **une seule et même** thématique, envisagée sous des angles différents.
+Merci au comité d'organisation de **RaTSiF-2026 Spring** (49ᵉ session, TSI, Riga, 24 avril 2026) — et, plus largement, à tous ceux qui, sur scène comme dans la salle, acceptent que la « beauté » et la « dette technique » soient **un seul et même** sujet, envisagé sous différents angles.

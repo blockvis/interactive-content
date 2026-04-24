@@ -8,7 +8,7 @@ translatedBy: claude-opus-4-7
 
 ![Caspar Wessel (1745–1818), Norwegian surveyor and author of the first geometric representation of complex numbers](../assets/abstract/wessel-portrait.jpg)
 
-*This research is conducted under the scientific supervision of* **Prof. Dr.Math. Jekaterina Gromova** *and* **Prof. Dr.Phys. Dmitry Bocharov**.
+*The research is conducted under the scientific supervision of* **Prof. Dr.Math. Jekaterina Gromova** *and* **Prof. Dr.Phys. Dmitry Bocharov**.
 
 <!-- backstage -->
 
@@ -50,6 +50,6 @@ An imaginary number system.
 Om directionens analytiske betegning. *Nye samling af det Kongelige Danske Videnskabernes Selskabs Skrifter*, 5, 469–518.
 [sophiararebooks.com/…/om-directionens-analytiske-betegning](https://www.sophiararebooks.com/pages/books/6397/caspar-wessel/om-directionens-analytiske-betegning-et-forsog-anvendt-fornemmelig-til-plane-og-sphaeriske)
 
-## Thanks for the company of talks
+## Thanks for the neighbouring talks
 
-Thanks to the organising committee of **RaTSiF-2026 Spring** (49th session, TSI, Riga, 24 April 2026) — and, more broadly, to everyone on stage and in the audience willing to accept that "beauty" and "technical debt" are **the same** subject viewed from different sides.
+Thanks to the organising committee of **RaTSiF-2026 Spring** (49th session, TSI, Riga, 24 April 2026) — and, more broadly, to everyone on stage and in the audience who is ready to accept that "beauty" and "technical debt" are **one and the same** topic, viewed from different sides.

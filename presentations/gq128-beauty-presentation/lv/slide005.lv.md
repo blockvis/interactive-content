@@ -1,6 +1,6 @@
 ---
 layout: content
-title: Optimālais režģis kompleksiem skaitļiem
+title: Optimālais režģis kompleksajiem skaitļiem
 subtitle: 'Parāds Nr. 3: $\mathbb{Z}[i]$ — tā nav robeža'
 sourceHash: sha256-895965e3b7fb15ce347cf8aae26552c1dff5648ddb7fbf77185714c375596686
 translatedBy: claude-opus-4-7
@@ -10,29 +10,29 @@ $$
 \omega = e^{2\pi i / 3}, \qquad \omega^2 + \omega + 1 = 0
 $$
 
-*Kvadrātiskais režģis dod pa **4** kaimiņiem uz punktu; sešstūrainais — pa **6**. Pareizais aritmētikas objekts ir Eizenšteina gredzens $\mathbb{Z}[\omega]$.*
+*Kvadrātiskais režģis dod pa **4** kaimiņiem uz punktu; sešstūra — pa **6**. Pareizais aritmētikas objekts ir Eizenšteina gredzens $\mathbb{Z}[\omega]$.*
 
 <!-- backstage -->
 
-## Pilna rindkopa (abstrakta tulkojums)
+## Pilns rindkopas teksts (abstrakta tulkojums)
 
-Gausa 1831. gada traktāts, papildus slavenajai sūdzībai, ieviesa arī **Gausa veselos skaitļus** $\mathbb{Z}[i]$ — kvadrātisko režģi, kodētu ar to pašu 90° vienošanos. Bet šis režģis **nav ģeometriski optimāls**: **sešstūrainais** režģis ir **blīvāks**, ar **sešiem** vienādi attāliem kaimiņiem uz punktu četru vietā.
+Gausa 1831. gada traktāts līdzās slavenajai sūdzībai ieviesa arī **Gausa veselos skaitļus** $\mathbb{Z}[i]$ — kvadrātisko režģi, kas iekodēts tajā pašā 90° vienošanās. Taču šis režģis **nav ģeometriski optimāls**: **sešstūra** režģis ir **blīvāks**, ar **sešiem** vienādā attālumā esošiem kaimiņiem uz punktu četru vietā.
 
-Pareizais aritmētikas objekts ir **Eizenšteina veselo skaitļu** gredzens $\mathbb{Z}[\omega]$, kur $\omega = e^{2\pi i / 3}$ apmierina $\omega^2 + \omega + 1 = 0$. To ieviesa **Eizenšteins** (1844) savā **kubiskās reciprocitātes likuma** pierādījumā (sīkāk — sk. Ireland & Rosen, 1990).
+Pareizais aritmētiskais objekts ir **Eizenšteina veselo skaitļu** gredzens $\mathbb{Z}[\omega]$, kur $\omega = e^{2\pi i / 3}$ apmierina $\omega^2 + \omega + 1 = 0$. To ieviesa **Eizenšteins** (1844) savā **kubiskās reciprocitātes likuma** pierādījumā (sīkāk sk. Ireland & Rosen, 1990).
 
 Tā norma
 $$
 N(a + b\omega) = a^2 - ab + b^2
 $$
-— tā ir dabiskā **60° ģeometrijas** kvadrātiskā forma; un, tāpat kā $\mathbb{Z}[i]$, tas ir **Eiklīda gredzens**.
+ir dabiskā **60° ģeometrijas** kvadrātiskā forma; un, tāpat kā $\mathbb{Z}[i]$, tas ir **Eiklīda gredzens**.
 
 :::callout{tone=accent}
-Sešstūrainais režģis nav Gausa kvadrātiskā režģa *vispārinājums*. Tas ir tā **labojums**.
+Sešstūra režģis nav Gausa kvadrātiskā režģa *vispārinājums*. Tā ir tā **korekcija**.
 :::
 
-## Kurš pirmais pamanīja, ka iepakojums ir sešstūrains
+## Kurš pirmais pamanīja, ka iepakojums ir sešstūra
 
-**Thue (1910)** — sešstūrainais riņķu iepakojums plaknē ir blīvāks par jebkuru citu. Tas ir divdimensiju analogs tai pašai intuīcijai, kas vēlāk novedīs pie lodīšu iepakojumu hierarhijas 3D, 8D un 24D — pie tās pieskarsimies noslēguma daļā.
+**Thue (1910)** — sešstūra riņķu iepakojums plaknē ir blīvāks par jebkuru citu. Tas ir divdimensiju analogs tai pašai intuīcijai, kas vēlāk novedīs pie lodīšu iepakojumu hierarhijas 3D, 8D un 24D — pie tās pieskarsimies noslēguma daļā.
 
 ## Atsauces
 

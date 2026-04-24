@@ -8,25 +8,25 @@ translatedBy: claude-opus-4-7
 
 ![Left — Argand: Re horizontal, Im vertical, positive rotation counter-clockwise. Right — Wessel: Re up, Im right, positive rotation clockwise, like a compass.](../assets/abstract/fig_axes.svg)
 
-*Flip the axes to Wessel's convention — and $e^{i\theta}$ starts rotating **clockwise**, like a compass, a helm, and a ship's heading.*
+*Flip the axes Wessel's way — and $e^{i\theta}$ starts rotating **clockwise**, like a compass, a ship's wheel, and a vessel's heading.*
 
 <!-- backstage -->
 
 ## Full paragraph (abstract translation)
 
-The complex plane was first given geometric form by **Caspar Wessel** (1799), and his background explains a lot: Wessel was a **Norwegian surveyor**, and his motivation was the analytic representation of *direction*. In a surveyor's world, the natural orientation is **navigational**: forward is *up*, "sideways" is *to the right*, and positive rotation follows the hands of the clock.
+The complex plane was first given geometric form by **Caspar Wessel** (1799), and his background explains a lot: Wessel was a **Norwegian surveyor**, and his motivation was an analytic representation of *direction*. In a surveyor's world the natural orientation is **navigational**: forward is *up*, "to the side" is *right*, and positive rotation follows the hands of the clock.
 
-Yet the Argand diagram that trickled down into textbooks chose the **Cartesian** orientation: the real axis horizontal, positive rotation **counter**-clockwise.
+Argand's diagram, however — the one that made it into the textbooks — chose a **Cartesian** orientation: the real axis horizontal, positive rotation going **counter**-clockwise.
 
-Restore Wessel's system: point the real axis **up**, the imaginary axis **to the right**. Positive rotation from $\mathrm{Re}$ to $\mathrm{Im}$, **algebraically the same**, becomes **clockwise** rotation. The complex exponential $e^{i\theta}$ now turns with the clock hand, with a compass going from north to east, and with a ship's heading bearing to starboard. Gauss's *direct* and *lateral* are restored as **forward** and **sideways**.
+Restore Wessel's system: point the real axis **upward** and the imaginary axis **to the right**. Positive rotation from $\mathrm{Re}$ to $\mathrm{Im}$, **algebraically the same**, becomes **clockwise** rotation. The complex exponential $e^{i\theta}$ now turns together with the clock hand, with the compass going from north to east, and with a ship's heading bearing to starboard. Gauss's *direct* and *lateral* are recovered as **forward** and **sideways**.
 
-The **angular debt** inherited from Cartesian diagrams, not from the geometry itself, **evaporates**.
+The **angular debt** inherited from Cartesian diagrams — not from the geometry itself — simply **evaporates**.
 
 ## Why it matters
 
-- In navigation, robotics and motor control, "angle" is almost always **clockwise from north**. Mathematical physics, by habit, demands translation into "counter-clockwise from east". Every such translation is a source of sign errors.
-- Wessel's convention makes $\cos\theta + i\sin\theta$ **the same** motion as a compass's $\mathrm{heading}(t)$, with no corrections.
-- The algebra of $\mathbb{C}$ does not change: only the picture on the board does.
+- In navigation, robotics, and motor control, "angle" is almost always **clockwise from north**. Mathematical physics, by habit, insists on translating everything into "counter-clockwise from east." Every such translation is a source of sign errors.
+- Wessel's convention makes $\cos\theta + i\sin\theta$ **the very same** motion as a compass's $\mathrm{heading}(t)$, with no corrections.
+- The algebra of $\mathbb{C}$ does not change: only the picture on the blackboard does.
 
 ## Reference
 

@@ -1,11 +1,11 @@
 ---
 layout: title
-title: Tehniskais parāds un kompleksvērtīgās ģeometrijas un aritmētikas skaistums
-subtitle: Interaktīvas vizualizācijas ar MI palīdzību
-sourceHash: sha256-44d357ef98970bf8b4c69db89fc413bee751a0f7cc13c359b01304d9e66dcd2d
+title: 'Interaktīvas, satura vadītas prezentācijas'
+subtitle: Jauns referātu un vizualizāciju formāts
+sourceHash: sha256-5fe15a0673e074458e331913c18dfd6610106b696305dc31eda5b124f1571965
 translatedBy: claude-opus-4-7
 ---
 
 **Anatolijs Resins** · Blockvis SIA, BlockvisLabs
 
-Skenējiet QR kodu, lai sekotu līdzi referātam savā telefonā.
+Noskenējiet QR kodu, lai sekotu referātam savā tālrunī.

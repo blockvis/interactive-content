@@ -19,35 +19,64 @@ export default function Home() {
             Featured
           </h2>
 
-          <Link
-            href="/gq128-beauty-presentation/slides/en/1"
-            className="group block rounded-2xl border border-zinc-200 p-6 text-left transition-colors hover:border-zinc-400 hover:bg-zinc-50 dark:border-zinc-800 dark:hover:border-zinc-600 dark:hover:bg-zinc-900"
-          >
-            <div className="flex items-center justify-between">
-              <div className="space-y-1">
-                <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-                  Technical Debt & The Beauty of Complex-Valued Geometry and
-                  Arithmetic
-                </h3>
-                <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                  From Gauss&apos;s 1831 complaint through the Eisenstein
-                  lattice and the Gosper island to GQ128 — a complex
-                  floating-point format with isotropic quantization error.
-                </p>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Link
+              href="/gq128-beauty-presentation/slides/en/1"
+              className="group block rounded-2xl border border-zinc-200 p-6 text-left transition-colors hover:border-zinc-400 hover:bg-zinc-50 dark:border-zinc-800 dark:hover:border-zinc-600 dark:hover:bg-zinc-900"
+            >
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+                    Technical Debt & The Beauty of Complex-Valued Geometry and
+                    Arithmetic
+                  </h3>
+                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                    From Gauss&apos;s 1831 complaint through the Eisenstein
+                    lattice and the Gosper island to GQ128 — a complex
+                    floating-point format with isotropic quantization error.
+                  </p>
+                </div>
+                <span className="shrink-0 text-zinc-300 transition-transform group-hover:translate-x-1 group-hover:text-zinc-500 dark:text-zinc-600 dark:group-hover:text-zinc-400">
+                  →
+                </span>
               </div>
-              <span className="shrink-0 text-zinc-300 transition-transform group-hover:translate-x-1 group-hover:text-zinc-500 dark:text-zinc-600 dark:group-hover:text-zinc-400">
-                →
-              </span>
-            </div>
-            <div className="mt-3 flex gap-2">
-              <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-                EN
-              </span>
-              <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
-                RU
-              </span>
-            </div>
-          </Link>
+              <div className="mt-3 flex gap-2">
+                <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+                  EN
+                </span>
+                <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+                  RU
+                </span>
+              </div>
+            </Link>
+
+            <Link
+              href="/interactive-presentations/slides/en/1"
+              className="group block rounded-2xl border border-zinc-200 p-6 text-left transition-colors hover:border-zinc-400 hover:bg-zinc-50 dark:border-zinc-800 dark:hover:border-zinc-600 dark:hover:bg-zinc-900"
+            >
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+                    Content-Driven Interactive Presentations
+                  </h3>
+                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                    A new format for talks and visualizations. Web-native slide decks with live formulas, multilingual support, and QR codes for every slide.
+                  </p>
+                </div>
+                <span className="shrink-0 text-zinc-300 transition-transform group-hover:translate-x-1 group-hover:text-zinc-500 dark:text-zinc-600 dark:group-hover:text-zinc-400">
+                  →
+                </span>
+              </div>
+              <div className="mt-3 flex gap-2">
+                <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+                  EN
+                </span>
+                <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+                  RU
+                </span>
+              </div>
+            </Link>
+          </div>
         </section>
 
         <footer className="text-xs text-zinc-400 dark:text-zinc-600">
